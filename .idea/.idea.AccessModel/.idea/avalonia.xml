@@ -3,6 +3,8 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="AccessModel/App.axaml" value="AccessModel/AccessModel.csproj" />
+        <entry key="AccessModel/Styles/AuthenticationStyle.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/AuthenticationWindow.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/MainWindow.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/StartWindow.axaml" value="AccessModel/AccessModel.csproj" />

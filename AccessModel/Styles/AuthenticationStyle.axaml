@@ -1,0 +1,86 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style Selector="TabControl.Authentication">
+        <Style.Setters>
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0, 16, 0, 0" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="WrapPanel">
+        <Style.Setters>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border#PART_SelectedPipe">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#b054c7" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="StackPanel.Authentication">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Orientation" Value="Vertical" />
+            <Setter Property="Margin" Value="32" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBlock.Authentication">
+        <Style.Setters>
+            <Setter Property="Margin" Value="12, 28, 0, 2" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBox.Authentication:pointerover /template/ Border">
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Background" Value="#f3e4f5" />
+        <Setter Property="BorderBrush" Value="#b054c7" />
+    </Style>
+    
+    <Style Selector="TextBox.Authentication:focus /template/ Border">
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Background" Value="#f3e4f5" />
+    </Style>
+    
+    <Style Selector="TextBox.Authentication">
+        <Style.Setters>
+            <Setter Property="Background" Value="#f3e4f5" />
+            <Setter Property="SelectionBrush" Value="#c88dd7" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBox.Password">
+        <Style.Setters>
+            <Setter Property="PasswordChar" Value="•" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Button.Authentication:pointerover /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="TextBlock.Foreground" Value="Snow"></Setter>
+            <Setter Property="Background" Value="#a13fba"></Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Button.Authentication">
+        <Style.Setters>
+            <Setter Property="Height" Value="42" />
+            <Setter Property="Width" Value="416" />
+            <Setter Property="Cursor" Value="Hand" /> 
+            <Setter Property="Foreground" Value="Snow" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="#b054c7" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0, 128, 0, 0" />
+        </Style.Setters>
+    </Style>
+    
+</Styles>
