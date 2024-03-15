@@ -10,7 +10,7 @@
     
     <Style Selector="WrapPanel">
         <Style.Setters>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style.Setters>
     </Style>
     
@@ -36,10 +36,12 @@
     </Style>
     
     <Style Selector="TextBox.Authentication:pointerover /template/ Border">
-        <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="Background" Value="#f3e4f5" />
-        <Setter Property="BorderBrush" Value="#b054c7" />
+        <Style.Setters>
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Background" Value="#f3e4f5" />
+            <Setter Property="BorderBrush" Value="#b054c7" />
+        </Style.Setters>
     </Style>
     
     <Style Selector="TextBox.Authentication:focus /template/ Border">
@@ -64,8 +66,8 @@
     
     <Style Selector="Button.Authentication:pointerover /template/ ContentPresenter">
         <Style.Setters>
-            <Setter Property="TextBlock.Foreground" Value="Snow"></Setter>
-            <Setter Property="Background" Value="#a13fba"></Setter>
+            <Setter Property="TextBlock.Foreground" Value="Snow" />
+            <Setter Property="Background" Value="#a13fba" />
         </Style.Setters>
     </Style>
     
