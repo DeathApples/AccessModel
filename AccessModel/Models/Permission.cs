@@ -1,9 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 namespace AccessModel.Models;
 
 /// <summary>
 /// Права пользователя на защищаемый объект
 /// </summary>
-public class Permission
+public class Permission: DbContext
 {
     /// <summary>
     /// Право владения

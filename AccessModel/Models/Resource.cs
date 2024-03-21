@@ -1,11 +1,11 @@
 using System;
-
+using Microsoft.EntityFrameworkCore;
 namespace AccessModel.Models;
 
 /// <summary>
 /// Защищаемый объект (ресурс)
 /// </summary>
-public class Resource
+public class Resource: DbContext
 {
     /// <summary>
     /// Псевдоуникальный идентификатор объекта

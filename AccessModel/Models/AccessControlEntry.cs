@@ -1,9 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 namespace AccessModel.Models;
 
 /// <summary>
 /// Запись контроля доступа
 /// </summary>
-public class AccessControlEntry
+public class AccessControlEntry: DbContext
 {
     /// <summary>
     /// Пользователь системы

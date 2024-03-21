@@ -1,5 +1,6 @@
 using System.Reactive;
 using ReactiveUI;
+using AccessModel.Models;
 
 namespace AccessModel.ViewModels;
 
@@ -48,7 +49,7 @@ public class AuthenticationViewModel : ViewModelBase
 
     private void SignUp()
     {
-        
+     
     }
 
     public AuthenticationViewModel()
