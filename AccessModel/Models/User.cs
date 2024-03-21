@@ -43,7 +43,7 @@ public class User: DbContext
     public User(string login, string password)
     {
         /* ToDo: Реализовать конструктор класса Пользователь
-         * Инициализировать свойства класса
+         * Инициализировать свойства классаа
          */
     }
 }
