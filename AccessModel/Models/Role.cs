@@ -1,17 +1,17 @@
 namespace AccessModel.Models;
 
 /// <summary>
-/// Уровень привилегированности (администратор/пользователь)
+/// Группа пользователей
 /// </summary>
-public enum Role
+public class Role
 {
     /// <summary>
-    /// Администратор
+    /// Название роли
     /// </summary>
-    Admin,
+    public string Name { get; set; }
     
     /// <summary>
-    /// Непривилегированный пользователь
+    /// Является ли роль привилегированной
     /// </summary>
-    User
+    public bool IsPrivileged { get; set; }
 }
