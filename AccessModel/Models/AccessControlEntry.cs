@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Metadata;
+
 namespace AccessModel.Models;
 
 /// <summary>
@@ -5,6 +7,11 @@ namespace AccessModel.Models;
 /// </summary>
 public class AccessControlEntry
 {
+    /// <summary>
+    /// Целочисленный идентификатор записи контроля доступа
+    /// </summary>
+    public long Id { get; set; }
+    
     /// <summary>
     /// Пользователь системы
     /// </summary>

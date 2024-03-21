@@ -6,6 +6,11 @@ namespace AccessModel.Models;
 public class Role
 {
     /// <summary>
+    /// Целочисленный идентификатор роли
+    /// </summary>
+    public long Id { get; set; }
+    
+    /// <summary>
     /// Название роли
     /// </summary>
     public string Name { get; set; }
