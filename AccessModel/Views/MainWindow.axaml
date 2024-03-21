@@ -1,20 +1,95 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui" mc:Ignorable="d"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AccessModel.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:AccessModel.ViewModels"
         x:Class="AccessModel.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        
+        d:DesignWidth="800" d:DesignHeight="550"
+        WindowStartupLocation="CenterScreen"
         Icon="/Assets/avalonia-logo.ico"
-        Title="AccessModel">
-
+        
+        Title="Дискреционная модель доступа">
+    
+    <Window.Styles>
+        <StyleInclude Source="/Styles/MainStyle.axaml" />
+    </Window.Styles>
+    
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" MinWidth="586" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Border Classes="User">
+                <StackPanel>
+                    <Image Source="/Assets/account.png" />
+                    <TextBlock Text="Администратор" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        
+        <Border Grid.Row="0" Grid.Column="2" Classes="Exit">
+            <Button Content="ВЫХОД" />
+        </Border>
+        
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Classes="Status">
+            <TextBlock Text="Успех" />
+        </Border>
+        
+        <GridSplitter Grid.Row="1" Grid.Column="1" />
+        
+        <Border Grid.Row="1" Grid.Column="1" Classes="Action">
+            <StackPanel>
+                <Button>
+                    <Image Source="/Assets/entry-add.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-edit.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-rename.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-remove.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-sec.png" />
+                </Button>
+            </StackPanel>
+        </Border>
+        
+        <Border Grid.Row="1" Grid.Column="0" Classes="Main">
+            <ScrollViewer>
+                <ItemsControl Items="{Binding ResourceList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button x:Name="DocumentButton">
+                                <StackPanel Orientation="Vertical">
+                                    <Image Source="/Assets/document.png" />
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+        
+        <Border Grid.Row="1" Grid.Column="2" Classes="Main">
+            
+            
+            
+        </Border>
+        
+    </Grid>
 
 </Window>
