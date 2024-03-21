@@ -1,8 +1,7 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.ReactiveUI;
-using System;
-using AccessModel.Models;
-using Microsoft.EntityFrameworkCore;
+
 namespace AccessModel;
 
 class Program

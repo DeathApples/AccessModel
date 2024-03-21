@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 namespace AccessModel.Models;
 
 /// <summary>
 /// Пользователь системы
 /// </summary>
-public class User: DbContext
+public class User
 {
     /// <summary>
     /// Целочисленный идентификатор пользователя
