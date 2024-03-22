@@ -28,5 +28,5 @@ public class User
     /// <summary>
     /// Уровень привилегированности (администратор/пользователь)
     /// </summary>
-    public Role? Role { get; set; }
+    public Role Role { get; set; }
 }

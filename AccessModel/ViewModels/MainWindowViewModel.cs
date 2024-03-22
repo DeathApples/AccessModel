@@ -7,10 +7,10 @@ namespace AccessModel.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private User _user = UserManager.CurrentUser ?? new User { Name = "Администратор" };
+    private User _user = UserManager.CurrentUser ?? new User { Name = "Администратор", Role = new Role { IsPrivileged = true } };
     
     public User User 
-    { 
+    {
         get => _user; 
         set => this.RaiseAndSetIfChanged(ref _user, value); 
     }
