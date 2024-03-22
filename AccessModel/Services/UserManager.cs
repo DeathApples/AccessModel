@@ -10,6 +10,11 @@ namespace AccessModel.Services;
 public class UserManager
 {
     /// <summary>
+    /// Пользователь, под которым был выполнен вход
+    /// </summary>
+    public static User? CurrentUser { get; set; }
+    
+    /// <summary>
     /// Возвращает всех пользователей системы
     /// </summary>
     /// <returns> Список пользователей системы </returns>

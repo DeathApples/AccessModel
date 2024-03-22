@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui" mc:Ignorable="d"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AccessModel.ViewModels"
+             x:Class="AccessModel.Views.ResourceView"
+             x:DataType="vm:ResourceViewModel"
+             d:DesignWidth="800" d:DesignHeight="450">
+    
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/ResourceStyle.axaml" />
+    </UserControl.Styles>
+    
+    <Design.DataContext>
+        <vm:ResourceViewModel/>
+    </Design.DataContext>
+    
+    <Grid ColumnDefinitions="2*, Auto, *">
+        
+        <Border Grid.Column="1" Classes="Action">
+            <StackPanel>
+                <Button>
+                    <Image Source="/Assets/entry-add.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-edit.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-rename.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-remove.png" />
+                </Button>
+                <Button>
+                    <Image Source="/Assets/entry-sec.png" />
+                </Button>
+            </StackPanel>
+        </Border>
+        
+        <Border Grid.Column="0" Classes="Resource">
+            <ScrollViewer>
+                <ItemsControl Items="{Binding ResourceList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button x:Name="DocumentButton">
+                                <StackPanel Orientation="Vertical">
+                                    <Image Source="/Assets/document.png" />
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+        
+        <Border Grid.Column="2" Classes="Resource">
+            
+            
+            
+        </Border>
+        
+    </Grid>
+    
+</UserControl>
