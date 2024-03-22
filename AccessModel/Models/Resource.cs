@@ -20,26 +20,10 @@ public class Resource
     /// <summary>
     /// Дата и время создания объекта
     /// </summary>
-    public DateTime CreateDateTime { get; }
-
+    public DateTime CreateDateTime { get; set; }
+    
     /// <summary>
-    /// Базовый конструктор класса Ресурс
+    /// Содержимое файла
     /// </summary>
-    public Resource()
-    {
-        /* ToDo: Реализовать базовый конструктор класса Ресурс
-         * Инициализировать свойства класса
-         */
-    }
-
-    /// <summary>
-    /// Конструктор класса Ресурс
-    /// </summary>
-    /// <param name="name"> Название объекта </param>
-    public Resource(string name)
-    {
-        /* ToDo: Реализовать конструктор класса Ресурс
-         * Инициализировать свойства класса
-         */
-    }
+    public string Content { get; set; }
 }

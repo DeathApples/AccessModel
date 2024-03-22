@@ -24,25 +24,4 @@ public class User
     /// Уровень привилегированности (администратор/пользователь)
     /// </summary>
     public Role Role { get; set; }
-
-    /// <summary>
-    /// Базовый конструктор класса Пользователь
-    /// </summary>
-    public User()
-    {
-        Login = "";
-        Password = "";
-    }
-
-    /// <summary>
-    /// Конструктор класса Пользователь
-    /// </summary>
-    /// <param name="login"> Имя пользователя </param>
-    /// <param name="password"> Хэш пароля </param>
-    public User(string login, string password)
-    {
-        /* ToDo: Реализовать конструктор класса Пользователь
-         * Инициализировать свойства класса
-         */
-    }
 }
