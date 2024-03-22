@@ -1,4 +1,5 @@
 using System;
+using BCrypt.Net;
 using System.Linq;
 using System.Collections.Generic;
 using AccessModel.Models;
@@ -41,22 +42,24 @@ public class UserManager
     public static bool UserVerification(string login, string password)
     {
         using var db = new AccessModelContext();
-        return db.Users?.FirstOrDefault(p => p.Login == login && p.Password == password) != null;
+        return db.Users?.FirstOrDefault(p => p.Login == login && p.Password == BCrypt.Net.BCrypt.HashPassword(password)) != null;
     }
     
     /// <summary>
     /// Создание пользователя
     /// </summary>
-    /// <param name="login"> Имя пользователя </param>
+    /// <param name="name"> Имя пользователя</param>
+    /// <param name="login"> Логин пользователя </param>
     /// <param name="password"> Пароль </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool CreateUser(string login, string password)
+    public static bool CreateUser(string name, string login, string password)
     {
         using var db = new AccessModelContext();
         var user = new User
         {
+            Name = name,
             Login = login,
-            Password = password
+            Password = BCrypt.Net.BCrypt.HashPassword(password)
         };
         db.Users?.Add(user);
         if (db.Entry(user).State != EntityState.Added) return false;
@@ -95,9 +98,9 @@ public class UserManager
     /// <returns> Успешность проверки </returns>
     public static bool PasswordVerification(User user, string password)
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        var hash = db.Users?.FirstOrDefault(p=> p.Login == user.Login)?.Password;
+        return BCrypt.Net.BCrypt.Verify(password, hash);
     }
 
     /// <summary>
@@ -111,9 +114,9 @@ public class UserManager
         using var db = new AccessModelContext();
         if (user != null)
         {
-            if (user.Password != password)
+            if (user.Password != BCrypt.Net.BCrypt.HashPassword(password))
             {
-                user.Password = password;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 db.Entry(user).State = EntityState.Modified;
             }
             else return true;
