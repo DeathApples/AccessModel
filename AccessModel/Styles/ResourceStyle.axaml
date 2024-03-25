@@ -119,6 +119,96 @@
         </Style.Setters>
     </Style>
     
+    <Style Selector="Border.Document">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="6" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border.Document > StackPanel">
+        <Style.Setters>
+            <Setter Property="Orientation" Value="Vertical" />
+            <Setter Property="Margin" Value="4" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border.Document > StackPanel > TextBox">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="#bbbaba" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="0, 0, 0, 12" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border.Document > StackPanel > TextBlock">
+        <Style.Setters>
+            <Setter Property="Margin" Value="2, 0" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="StackPanel.Permissions">
+        <Style.Setters>
+            <Setter Property="Margin" Value="10, 0, 0, 20" />
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Spacing" Value="12" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="StackPanel.Permissions > StackPanel">
+        <Style.Setters>
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="CheckBox /template/ Border#NormalRectangle">
+        <Setter Property="BorderBrush" Value="DimGray"/>        
+    </Style>
+    
+    <Style Selector="CheckBox:pointerover /template/ Border#NormalRectangle">
+        <Setter Property="BorderBrush" Value="#bbbaba" />
+    </Style>
+    
+    <Style Selector="CheckBox:checked /template/ Border#NormalRectangle">
+        <Setter Property="BorderBrush" Value="#bbbaba" />
+        <Setter Property="Background" Value="#7c2d90" />
+    </Style>
+    
+    <Style Selector="StackPanel.Permissions > StackPanel > TextBlock">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="#bbbaba" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border.Content">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+            <Setter Property="CornerRadius" Value="20" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Border.Content > TextBox">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="6, 9, 8, 9" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="Snow" />
+            <Setter Property="CaretBrush" Value="Snow" />
+            <Setter Property="SelectionBrush" Value="#7c2d90" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="GridSplitter">
+        <Style.Setters>
+            <Setter Property="ResizeDirection" Value="Rows" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style.Setters>
+    </Style>
+    
     <Style Selector="Image">
         <Style.Setters>
             <Setter Property="Stretch" Value="None" />

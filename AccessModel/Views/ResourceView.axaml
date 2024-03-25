@@ -5,7 +5,7 @@
              xmlns:vm="using:AccessModel.ViewModels"
              x:Class="AccessModel.Views.ResourceView"
              x:DataType="vm:ResourceViewModel"
-             d:DesignWidth="800" d:DesignHeight="450">
+             d:DesignWidth="800" d:DesignHeight="650">
     
     <UserControl.Styles>
         <StyleInclude Source="/Styles/ResourceStyle.axaml" />
@@ -55,9 +55,56 @@
         </Border>
         
         <Border Grid.Column="2" Classes="Resource">
-            
-            
-            
+            <Grid Margin="6">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="276" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" MinHeight="160" />
+                </Grid.RowDefinitions>
+                
+                <Border Grid.Row="0" Classes="Document">
+                    <StackPanel>
+                        
+                        <TextBlock Text="Наименование документа" />
+                        <TextBox IsEnabled="False" Text="01" />
+                        
+                        <TextBlock Text="Текущие права" />
+                        <StackPanel Classes="Permissions">
+                            <StackPanel>
+                                <CheckBox Margin="5, 0" />
+                                <TextBlock Text="Own" />
+                            </StackPanel>
+                            <StackPanel>
+                                <CheckBox Margin="5, 0" />
+                                <TextBlock Text="Read" />
+                            </StackPanel>
+                            <StackPanel>
+                                <CheckBox Margin="5, 0" />
+                                <TextBlock Text="Write" />
+                            </StackPanel>
+                            <StackPanel>
+                                <CheckBox Margin="-1, 0" />
+                                <TextBlock Text="TG" />
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        <TextBlock Text="Владелец" />
+                        <TextBox IsEnabled="False" Text="Администратор" />
+                        
+                        <TextBlock Text="Дата создания" />
+                        <TextBox IsEnabled="False" Text="22.03.2024 00:00:00" />
+                        
+                    </StackPanel>
+                </Border>
+                
+                <GridSplitter Grid.Row="1"  />
+                
+                <Border Grid.Row="2" Classes="Content">
+                    <TextBox Text="Hello" /> 
+                </Border>
+                
+            </Grid>
         </Border>
         
     </Grid>
