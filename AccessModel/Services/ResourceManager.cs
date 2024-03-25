@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AccessModel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccessModel.Services;
 
@@ -16,8 +18,11 @@ public static class ResourceManager
     /// <returns> Список защищаемых объектов </returns>
     public static List<Resource> GetObjects(User user)
     {
-        
-        
+        //var resources = new List<Resource>();
+        using var db = new AccessModelContext();
+        var list = db.UsersAccessControlEntries?.Include(p => p.Permission).Where(p =>
+            p.Permission.Own == true || p.Permission.Read == true || p.Permission.Write == true ||
+                               p.Permission.TakeGrant == true).Where(p=> p.User == user).ToList();
         throw new NotImplementedException();
     }
 
@@ -27,11 +32,12 @@ public static class ResourceManager
     /// <param name="resource"> Ресурс, содержание которого было запрошено </param>
     /// <param name="user"> Пользователь, запросивший содержание </param>
     /// <returns> Содержание защищаемого объекта </returns>
-    public static string ReadObject(Resource resource, User user)
+    public static string? ReadObject(Resource resource, User user)
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        var res = db.UsersAccessControlEntries?.Include(p => p.Resource)
+            .FirstOrDefault(p => p.User == user && p.Resource == resource)?.Resource.Content;
+        return res;
     }
     
     /// <summary>
@@ -42,9 +48,25 @@ public static class ResourceManager
     /// <returns> Успешность выполнения операции </returns>
     public static bool CreateObject(User user, string name = "")
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        var resource = new Resource
+        {
+            Name = name,
+            CreateDateTime = DateTime.Now,
+            Content = ""
+        };
+        var accessControlEntry = new AccessControlEntry
+        {
+                User = user,
+                Resource = resource,
+                Permission = db.UsersPermissions.FirstOrDefault(p => p!.Id == 5)
+        };
+        db.Resources?.Add(resource);
+        if (db.Entry(resource).State != EntityState.Added) return false;
+        db.UsersAccessControlEntries?.Add(accessControlEntry);
+        if (db.Entry(accessControlEntry).State != EntityState.Added) return false;
+        db.SaveChanges();
+        return true;
     }
 
     /// <summary>
@@ -54,11 +76,17 @@ public static class ResourceManager
     /// <param name="user"> Пользователь, пытающийся выполнить данную операцию </param>
     /// <param name="name"> Новое название объекта </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool RenameObject(Resource resource, User user, string name)
+    public static bool RenameObject(Resource? resource, User user, string name)
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        if (resource != null)
+        {
+            resource.Name = name;
+            db.Entry(resource).State = EntityState.Modified;
+        }
+        else return true;
+        var countUpdate = db.SaveChanges();
+        return countUpdate > 0;
     }
     
     /// <summary>
@@ -68,11 +96,17 @@ public static class ResourceManager
     /// <param name="user"> Пользователь, пытающий модифицировать содержимое объекта </param>
     /// <param name="text"> Новое содержание защищаемого объекта </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool ModifyObject(Resource resource, User user, string text)
+    public static bool ModifyObject(Resource? resource, User user, string text)
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        if (resource != null)
+        {
+            resource.Content = text;
+            db.Entry(resource).State = EntityState.Modified;
+        }
+        else return true;
+        var countUpdate = db.SaveChanges();
+        return countUpdate > 0;
     }
 
     /// <summary>
@@ -83,8 +117,9 @@ public static class ResourceManager
     /// <returns> Успешность выполнения операции </returns>
     public static bool DeleteObject(Resource resource, User user)
     {
-        
-        
-        throw new NotImplementedException();
+        using var db = new AccessModelContext();
+        db.Resources?.Remove(resource);
+        var countUpdate = db.SaveChanges();
+        return countUpdate > 0;
     }
 }

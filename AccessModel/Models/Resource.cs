@@ -10,7 +10,7 @@ public class Resource
     /// <summary>
     /// Псевдоуникальный идентификатор объекта
     /// </summary>
-    public Guid Id { get; set; }
+    public long Id { get; set; }
     
     /// <summary>
     /// Название объекта
@@ -25,5 +25,5 @@ public class Resource
     /// <summary>
     /// Содержимое файла
     /// </summary>
-    public string Content { get; set; }
+    public string? Content { get; set; }
 }
