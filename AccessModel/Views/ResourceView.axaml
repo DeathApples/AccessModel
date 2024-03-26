@@ -42,12 +42,12 @@
                 <ItemsControl Items="{Binding ResourceList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button x:Name="DocumentButton">
+                            <RadioButton x:Name="ResourceButton">
                                 <StackPanel Orientation="Vertical">
                                     <Image Source="/Assets/document.png" />
                                     <TextBlock Text="{Binding Name}" />
                                 </StackPanel>
-                            </Button>
+                            </RadioButton>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -76,11 +76,11 @@
                                 <TextBlock Text="Own" />
                             </StackPanel>
                             <StackPanel>
-                                <CheckBox Margin="5, 0" />
+                                <CheckBox Margin="6, 0" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
-                                <CheckBox Margin="5, 0" />
+                                <CheckBox Margin="6, 0" />
                                 <TextBlock Text="Write" />
                             </StackPanel>
                             <StackPanel>

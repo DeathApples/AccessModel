@@ -4,8 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:AccessModel.ViewModels"
         x:Class="AccessModel.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        d:DesignWidth="1242" d:DesignHeight="752">
+        x:DataType="vm:MainWindowViewModel">
     
     <Window.Styles>
         <StyleInclude Source="/Styles/MainStyle.axaml" />
