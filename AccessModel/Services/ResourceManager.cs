@@ -16,14 +16,22 @@ public static class ResourceManager
     /// </summary>
     /// <param name="user"> Активный пользователь </param>
     /// <returns> Список защищаемых объектов </returns>
-    public static List<Resource> GetObjects(User user)
+    public static List<Resource>? GetObjects(User user)
     {
-        //var resources = new List<Resource>();
+        var resources = new List<Resource>();
         using var db = new AccessModelContext();
-        var list = db.UsersAccessControlEntries?.Include(p => p.Permission).Where(p =>
-            p.Permission.Own == true || p.Permission.Read == true || p.Permission.Write == true ||
-                               p.Permission.TakeGrant == true).Where(p=> p.User == user).ToList();
-        throw new NotImplementedException();
+        var list = db.UsersAccessControlEntries?.Where(p =>
+            p.Permission != null && p.User == user)
+            .ToList();
+        if (list == null) return null;
+        var index = 0;
+        for (; index < list.Count; index++)
+        {
+            var s = list[index];
+            resources.Add(s.Resource);
+        }
+        return resources;
+
     }
 
     /// <summary>
@@ -35,9 +43,11 @@ public static class ResourceManager
     public static string? ReadObject(Resource resource, User user)
     {
         using var db = new AccessModelContext();
-        var res = db.UsersAccessControlEntries?.Include(p => p.Resource)
+        var permission = GetPermission(user, resource);
+        if (permission?.Read != true) return "No rights";
+        var resourceContent = db.UsersAccessControlEntries?.Include(p => p.Resource)
             .FirstOrDefault(p => p.User == user && p.Resource == resource)?.Resource.Content;
-        return res;
+        return resourceContent;
     }
     
     /// <summary>
@@ -59,7 +69,7 @@ public static class ResourceManager
         {
                 User = user,
                 Resource = resource,
-                Permission = db.UsersPermissions.FirstOrDefault(p => p!.Id == 5)
+                Permission = new Permission{Own = true, Read = true, Write = true, TakeGrant = true}
         };
         db.Resources?.Add(resource);
         if (db.Entry(resource).State != EntityState.Added) return false;
@@ -81,6 +91,8 @@ public static class ResourceManager
         using var db = new AccessModelContext();
         if (resource != null)
         {
+            var permission = GetPermission(user, resource);
+            if (permission?.Write != true) return false;
             resource.Name = name;
             db.Entry(resource).State = EntityState.Modified;
         }
@@ -101,6 +113,8 @@ public static class ResourceManager
         using var db = new AccessModelContext();
         if (resource != null)
         {
+            var permission = GetPermission(user, resource);
+            if (permission?.Write != true) return false;
             resource.Content = text;
             db.Entry(resource).State = EntityState.Modified;
         }
@@ -110,6 +124,17 @@ public static class ResourceManager
     }
 
     /// <summary>
+    /// Возвращает права доступа для зазащиаеомго объекта
+    /// </summary>
+    /// <param name="resource"> Ссылка на объект, над которым выполняется операция </param>
+    /// <param name="user"> Пользователь, пытающийся выполнить данную операцию </param>
+    /// <returns> Права доступа для зазащиаеомго объекта </returns>
+    public static Permission? GetPermission(User user, Resource resource)
+    {
+        using var db = new AccessModelContext();
+        return  db.UsersAccessControlEntries?.FirstOrDefault(p => p.User == user || p.Resource == resource)!.Permission;
+    }
+    /// <summary>
     /// Удаление защищаемого объекта
     /// </summary>
     /// <param name="resource"> Ссылка на объект, над которым выполняется операция </param>
@@ -118,8 +143,11 @@ public static class ResourceManager
     public static bool DeleteObject(Resource resource, User user)
     {
         using var db = new AccessModelContext();
+        var permission = GetPermission(user, resource);
+        if (permission?.Write != true) return false;
         db.Resources?.Remove(resource);
         var countUpdate = db.SaveChanges();
         return countUpdate > 0;
+
     }
 }

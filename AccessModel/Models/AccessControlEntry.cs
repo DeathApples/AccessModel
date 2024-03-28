@@ -25,5 +25,5 @@ public class AccessControlEntry
     /// <summary>
     /// Разрешения, которыми обладает данный пользователь над данным объектом
     /// </summary>
-    public Permission Permission { get; set; }
+    public Permission? Permission { get; set; }
 }
