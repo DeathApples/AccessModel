@@ -15,12 +15,12 @@ public class AccessControlEntry
     /// <summary>
     /// Пользователь системы
     /// </summary>
-    public User User { get; set; }
+    public User? User { get; set; }
     
     /// <summary>
     /// Защищаемый объект
     /// </summary>
-    public Resource Resource { get; set; }
+    public Resource? Resource { get; set; }
     
     /// <summary>
     /// Разрешения, которыми обладает данный пользователь над данным объектом
