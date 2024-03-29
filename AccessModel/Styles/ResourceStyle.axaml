@@ -57,7 +57,7 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Resource">
+    <Style Selector="Border.RoundBorder">
         <Style.Setters>
             <Setter Property="Margin" Value="8" />
             <Setter Property="CornerRadius" Value="20" />
@@ -67,13 +67,13 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Resource > ScrollViewer">
+    <Style Selector="ScrollViewer.Resources">
         <Style.Setters>
             <Setter Property="Margin" Value="6" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Resource > ScrollViewer > ItemsControl">
+    <Style Selector="ScrollViewer.Resources > ItemsControl">
         <Style.Setters>
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
@@ -140,7 +140,7 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Document">
+    <Style Selector="Border.Properties">
         <Style.Setters>
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="BorderBrush" Value="DimGray" />
@@ -149,24 +149,58 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Document > StackPanel">
+    <Style Selector="Border.Properties > StackPanel">
         <Style.Setters>
             <Setter Property="Orientation" Value="Vertical" />
             <Setter Property="Margin" Value="4" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Document > StackPanel > TextBox">
+    <Style Selector="Border.Properties > StackPanel > TextBlock">
         <Style.Setters>
-            <Setter Property="Foreground" Value="#bbbaba" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="0, 0, 0, 12" />
+            <Setter Property="Margin" Value="2, 0" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Document > StackPanel > TextBlock">
+    <Style Selector="TextBox.ResourceName:disabled /template/ Border#PART_BorderElement">
         <Style.Setters>
-            <Setter Property="Margin" Value="2, 0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBox.ResourceName:disabled /template/ Border">
+        <Style.Setters>
+            <Setter Property="TextBlock.Foreground" Value="#bbbaba" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBox.ResourceName:pointerover /template/ Border">
+        <Style.Setters>
+            <Setter Property="BorderBrush" Value="#bbbaba" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBox.ResourceName:focus /template/ Border">
+        <Setter Property="BorderBrush" Value="#b054c7" />
+    </Style>
+    
+    <Style Selector="TextBox.ResourceName">
+        <Style.Setters>
+            <Setter Property="CaretBrush" Value="Snow" />
+            <Setter Property="Foreground" Value="Snow" />
+            <Setter Property="CornerRadius" Value="2" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+            <Setter Property="SelectionBrush" Value="#7c2d90" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0, 2, 0, 12" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="TextBlock.PropertyValue">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="#bbbaba" />
+            <Setter Property="Padding" Value="8, 6, 0, 18" />
         </Style.Setters>
     </Style>
     
@@ -184,8 +218,8 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="CheckBox /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="DimGray"/>        
+    <Style Selector="CheckBox:disabled /template/ Border#NormalRectangle">
+        <Setter Property="BorderBrush" Value="DimGray" />
     </Style>
     
     <Style Selector="CheckBox:pointerover /template/ Border#NormalRectangle">
@@ -195,6 +229,14 @@
     <Style Selector="CheckBox:checked /template/ Border#NormalRectangle">
         <Setter Property="BorderBrush" Value="#bbbaba" />
         <Setter Property="Background" Value="#7c2d90" />
+    </Style>
+    
+    <Style Selector="CheckBox /template/ Border#NormalRectangle">
+        <Setter Property="BorderBrush" Value="DimGray"/>
+    </Style>
+    
+    <Style Selector="CheckBox">
+        <Setter Property="IsTabStop" Value="False" />
     </Style>
     
     <Style Selector="StackPanel.Permissions > StackPanel > TextBlock">
@@ -225,9 +267,14 @@
     
     <Style Selector="GridSplitter">
         <Style.Setters>
+            <Setter Property="IsTabStop" Value="False" />
             <Setter Property="ResizeDirection" Value="Rows" />
             <Setter Property="Background" Value="Transparent" />
         </Style.Setters>
+    </Style>
+    
+    <Style Selector="ScrollBar">
+        
     </Style>
     
     <Style Selector="Image">

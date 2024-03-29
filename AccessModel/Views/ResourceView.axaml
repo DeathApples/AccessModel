@@ -26,9 +26,6 @@
                     <Image Source="/Assets/entry-edit.png" />
                 </Button>
                 <Button>
-                    <Image Source="/Assets/entry-rename.png" />
-                </Button>
-                <Button>
                     <Image Source="/Assets/entry-remove.png" />
                 </Button>
                 <Button>
@@ -37,8 +34,8 @@
             </StackPanel>
         </Border>
         
-        <Border Grid.Column="0" Classes="Resource">
-            <ScrollViewer>
+        <Border Grid.Column="0" Classes="RoundBorder">
+            <ScrollViewer Classes="Resources">
                 <ItemsControl Items="{Binding ResourceList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -54,7 +51,7 @@
             </ScrollViewer>
         </Border>
         
-        <Border Grid.Column="2" Classes="Resource">
+        <Border Grid.Column="2" Classes="RoundBorder">
             <Grid Margin="6">
                 
                 <Grid.RowDefinitions>
@@ -63,11 +60,11 @@
                     <RowDefinition Height="*" MinHeight="160" />
                 </Grid.RowDefinitions>
                 
-                <Border Grid.Row="0" Classes="Document">
+                <Border Grid.Row="0" Classes="Properties">
                     <StackPanel>
                         
                         <TextBlock Text="Наименование документа" />
-                        <TextBox IsEnabled="False" Text="01" />
+                        <TextBox Classes="ResourceName" IsEnabled="False" Text="01" />
                         
                         <TextBlock Text="Текущие права" />
                         <StackPanel Classes="Permissions">
@@ -76,7 +73,7 @@
                                 <TextBlock Text="Own" />
                             </StackPanel>
                             <StackPanel>
-                                <CheckBox Margin="6, 0" />
+                                <CheckBox IsEnabled="False" Margin="6, 0" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
@@ -90,10 +87,10 @@
                         </StackPanel>
                         
                         <TextBlock Text="Владелец" />
-                        <TextBox IsEnabled="False" Text="Администратор" />
+                        <TextBlock Classes="PropertyValue" Text="Администратор" />
                         
                         <TextBlock Text="Дата создания" />
-                        <TextBox IsEnabled="False" Text="22.03.2024 00:00:00" />
+                        <TextBlock Classes="PropertyValue" Text="22.03.2024 00:00:00" />
                         
                     </StackPanel>
                 </Border>
