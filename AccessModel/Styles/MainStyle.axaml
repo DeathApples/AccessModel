@@ -9,8 +9,8 @@
             <Setter Property="CanResize" Value="True" />
             <Setter Property="MinHeight" Value="768" />
             <Setter Property="Height" Value="768" />
-            <Setter Property="MinWidth" Value="1242" />
-            <Setter Property="Width" Value="1242" />
+            <Setter Property="MinWidth" Value="1336" />
+            <Setter Property="Width" Value="1336" />
         </Style.Setters>
     </Style>
     

@@ -22,7 +22,7 @@
                 <Button>
                     <Image Source="/Assets/entry-add.png" />
                 </Button>
-                <Button>
+                <Button Command="{Binding ChangeEditMode}">
                     <Image Source="/Assets/entry-edit.png" />
                 </Button>
                 <Button>
@@ -36,18 +36,16 @@
         
         <Border Grid.Column="0" Classes="RoundBorder">
             <ScrollViewer Classes="Resources">
-                <ItemsControl Items="{Binding ResourceList}">
-                    <ItemsControl.ItemTemplate>
+                <ListBox Items="{Binding AclList}" SelectedItem="{Binding CurrentAcl}">
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <RadioButton x:Name="ResourceButton">
-                                <StackPanel Orientation="Vertical">
-                                    <Image Source="/Assets/document.png" />
-                                    <TextBlock Text="{Binding Name}" />
-                                </StackPanel>
-                            </RadioButton>
+                            <StackPanel Orientation="Vertical">
+                                <Image Source="/Assets/document.png" />
+                                <TextBlock Classes="DocumentName" Text="{Binding Resource.Name}" />
+                            </StackPanel>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </Border>
         
@@ -57,45 +55,51 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" MinHeight="276" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" MinHeight="160" />
+                    <RowDefinition Height="2*" MinHeight="160" />
                 </Grid.RowDefinitions>
                 
                 <Border Grid.Row="0" Classes="Properties">
                     <StackPanel>
                         
                         <TextBlock Text="Наименование документа" />
-                        <TextBox Classes="ResourceName" IsEnabled="False" Text="01" />
+                        <TextBox Classes="ResourceName"
+                                 IsEnabled="{Binding IsEditMode}"
+                                 Text="{Binding CurrentAcl.Resource.Name}" />
                         
                         <TextBlock Text="Текущие права" />
                         <StackPanel Classes="Permissions">
                             <StackPanel>
-                                <CheckBox Margin="5, 0" />
-                                <TextBlock Text="Own" />
-                            </StackPanel>
-                            <StackPanel>
-                                <CheckBox IsEnabled="False" Margin="6, 0" />
+                                <CheckBox Margin="7, 0"
+                                          IsEnabled="{Binding IsEditMode}"
+                                          IsChecked="{Binding CurrentAcl.Permissions.Read}" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
-                                <CheckBox Margin="6, 0" />
+                                <CheckBox Margin="6, 0"
+                                          IsEnabled="{Binding IsEditMode}"
+                                          IsChecked="{Binding CurrentAcl.Permissions.Write}" />
                                 <TextBlock Text="Write" />
                             </StackPanel>
                             <StackPanel>
-                                <CheckBox Margin="-1, 0" />
+                                <CheckBox Margin="-1, 0"
+                                          IsEnabled="{Binding IsEditMode}"
+                                          IsChecked="{Binding CurrentAcl.Permissions.TakeGrant}" />
                                 <TextBlock Text="TG" />
                             </StackPanel>
                         </StackPanel>
                         
                         <TextBlock Text="Владелец" />
-                        <TextBlock Classes="PropertyValue" Text="Администратор" />
+                        <TextBlock Classes="PropertyValue"
+                                   Text="???" />
                         
                         <TextBlock Text="Дата создания" />
-                        <TextBlock Classes="PropertyValue" Text="22.03.2024 00:00:00" />
+                        <TextBlock Classes="PropertyValue"
+                                   Text="{Binding CurrentAcl.Resource.CreateDateTime}" />
                         
                     </StackPanel>
                 </Border>
                 
-                <GridSplitter Grid.Row="1"  />
+                <GridSplitter Grid.Row="1" />
                 
                 <Border Grid.Row="2" Classes="Content">
                     <TextBox Text="Hello" /> 

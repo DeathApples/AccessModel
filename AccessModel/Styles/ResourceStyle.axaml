@@ -73,67 +73,45 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="ScrollViewer.Resources > ItemsControl">
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="Background" Value="#292929" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBoxItem">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="1" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ScrollViewer.Resources > ListBox">
         <Style.Setters>
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" Margin="0, 5" />
+                    <WrapPanel Orientation="Horizontal" Margin="1" />
                 </ItemsPanelTemplate>
             </Setter>
         </Style.Setters>
     </Style>
     
-    <Style Selector="RadioButton#ResourceButton:pointerover /template/ ContentPresenter">
-        <Style.Setters>
-            <Setter Property="TextBlock.Foreground" Value="Snow" />
-            <Setter Property="Background" Value="#292929" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="RadioButton#ResourceButton:pressed /template/ ContentPresenter">
-        <Style.Setters>
-            <Setter Property="TextBlock.Foreground" Value="Snow" />
-            <Setter Property="Background" Value="#202020" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="RadioButton#ResourceButton:checked /template/ ContentPresenter">
-        <Style.Setters>
-            <Setter Property="TextBlock.Foreground" Value="Snow" />
-            <Setter Property="BorderBrush" Value="DimGray" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="RadioButton#ResourceButton">
-        <Style.Setters>
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="GroupName" Value="ResourceGroup" />
-            <Setter Property="Margin" Value="3" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Margin="{TemplateBinding Padding}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="0, 0, 0, 4"
-                            BorderThickness="2"
-                            CornerRadius="12" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="RadioButton#ResourceButton > StackPanel > Image">
+    <Style Selector="ScrollViewer.Resources > Image">
         <Style.Setters>
             <Setter Property="Height" Value="128" />
             <Setter Property="Width" Value="128" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="RadioButton#ResourceButton > StackPanel > TextBlock">
+    <Style Selector="TextBlock.DocumentName">
         <Style.Setters>
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="FontSize" Value="16" />

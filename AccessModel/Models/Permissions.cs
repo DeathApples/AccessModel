@@ -3,13 +3,8 @@ namespace AccessModel.Models;
 /// <summary>
 /// Права пользователя на защищаемый объект
 /// </summary>
-public class Permission
+public class Permissions
 {
-    /// <summary>
-    /// Право владения
-    /// </summary>
-    public bool Own { get; set; }
-    
     /// <summary>
     /// Право на чтение
     /// </summary>
