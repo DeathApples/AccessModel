@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:AccessModel.ViewModels"
+             xmlns:conv="using:AccessModel.Converters"
              x:Class="AccessModel.Views.ResourceView"
              x:DataType="vm:ResourceViewModel"
              d:DesignWidth="800" d:DesignHeight="650">
@@ -15,17 +16,22 @@
         <vm:ResourceViewModel/>
     </Design.DataContext>
     
+    <UserControl.Resources>
+        <conv:PermissionsConverter x:Key="PermissionsConverter" />
+        <conv:ResourceConverter x:Key="ResourceConverter" />
+    </UserControl.Resources>
+    
     <Grid ColumnDefinitions="2*, Auto, *">
         
         <Border Grid.Column="1" Classes="Action">
             <StackPanel>
-                <Button>
+                <Button Command="{Binding CreateResource}">
                     <Image Source="/Assets/entry-add.png" />
                 </Button>
                 <Button Command="{Binding ChangeEditMode}">
                     <Image Source="/Assets/entry-edit.png" />
                 </Button>
-                <Button>
+                <Button Command="{Binding DeleteResource}">
                     <Image Source="/Assets/entry-remove.png" />
                 </Button>
                 <Button>
@@ -36,12 +42,14 @@
         
         <Border Grid.Column="0" Classes="RoundBorder">
             <ScrollViewer Classes="Resources">
-                <ListBox Items="{Binding AclList}" SelectedItem="{Binding CurrentAcl}">
+                <ListBox Items="{Binding AclList}"
+                         SelectedItem="{Binding CurrentAcl}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <Image Source="/Assets/document.png" />
-                                <TextBlock Classes="DocumentName" Text="{Binding Resource.Name}" />
+                                <TextBlock Classes="DocumentName"
+                                           Text="{Binding Resource.Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -62,7 +70,7 @@
                     <StackPanel>
                         
                         <TextBlock Text="Наименование документа" />
-                        <TextBox Classes="ResourceName"
+                        <TextBox Classes="ResourceName" x:Name="NameResource"
                                  IsEnabled="{Binding IsEditMode}"
                                  Text="{Binding CurrentAcl.Resource.Name}" />
                         
@@ -71,26 +79,29 @@
                             <StackPanel>
                                 <CheckBox Margin="7, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions.Read}" />
+                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=read}" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="6, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions.Write}" />
+                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=write}" />
                                 <TextBlock Text="Write" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="-1, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions.TakeGrant}" />
+                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=tg}" />
                                 <TextBlock Text="TG" />
                             </StackPanel>
                         </StackPanel>
                         
                         <TextBlock Text="Владелец" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="???" />
+                                   Text="{Binding CurrentAcl.Resource.Owner.Name}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"

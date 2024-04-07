@@ -7,8 +7,8 @@
             <Setter Property="Title" Value="Дискреционная модель доступа" />
             <Setter Property="Icon" Value="/Assets/avalonia-logo.ico" />
             <Setter Property="CanResize" Value="True" />
-            <Setter Property="MinHeight" Value="768" />
-            <Setter Property="Height" Value="768" />
+            <Setter Property="MinHeight" Value="809" />
+            <Setter Property="Height" Value="809" />
             <Setter Property="MinWidth" Value="1336" />
             <Setter Property="Width" Value="1336" />
         </Style.Setters>
