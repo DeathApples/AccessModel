@@ -19,10 +19,10 @@ public static class ResourceManager
     public static List<Resource> GetObjects(User user)
     {
         //var resources = new List<Resource>();
-        using var db = new AccessModelContext();
+        /*using var db = new AccessModelContext();
         var list = db.UsersAccessControlEntries?.Include(p => p.Permission).Where(p =>
             p.Permission.Own == true || p.Permission.Read == true || p.Permission.Write == true ||
-                               p.Permission.TakeGrant == true).Where(p=> p.User == user).ToList();
+                               p.Permission.TakeGrant == true).Where(p=> p.User == user).ToList();*/
         throw new NotImplementedException();
     }
 
@@ -59,7 +59,7 @@ public static class ResourceManager
         {
                 User = user,
                 Resource = resource,
-                Permission = db.UsersPermissions.FirstOrDefault(p => p!.Id == 5)
+                //Permission = db.UsersPermissions.FirstOrDefault(p => p!.Id == 5)
         };
         db.Resources?.Add(resource);
         if (db.Entry(resource).State != EntityState.Added) return false;

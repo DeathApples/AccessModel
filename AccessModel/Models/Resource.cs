@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AccessModel.Models;
 
@@ -10,16 +11,19 @@ public class Resource
     /// <summary>
     /// Псевдоуникальный идентификатор объекта
     /// </summary>
+    [Required]
     public long Id { get; set; }
     
     /// <summary>
     /// Название объекта
     /// </summary>
+    [MaxLength(50)]
     public string Name { get; set; }
     
     /// <summary>
     /// Содержимое объекта
     /// </summary>
+    [MaxLength(1024)]
     public string Content { get; set; }
     
     /// <summary>

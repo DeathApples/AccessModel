@@ -43,7 +43,7 @@ public class ResourceViewModel : ViewModelBase
 
     public void CreateResource()
     {
-        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } };
+        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!" };
         var currentPermissions = new Permissions { Read = true, Write = true, TakeGrant = true };
         
         AclList.Add(new AccessControlEntry { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "123", Owner = currentUser, CreateDateTime = DateTime.Now } });
@@ -66,7 +66,7 @@ public class ResourceViewModel : ViewModelBase
 
     public ResourceViewModel()
     {
-        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } };
+        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!" };
         var currentPermissions = new Permissions { Read = true, Write = true, TakeGrant = true };
         
         _aclList = new ObservableCollection<AccessControlEntry>(new List<AccessControlEntry>  {
@@ -105,62 +105,62 @@ public class ResourceViewModel : ViewModelBase
         _currentAcl = AclList[0];
         
         _userList = new ObservableCollection<User>(new List<User> {
-            new() { Id = 0, Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } },
-            new() { Id = 1, Name = "Вася", Login = "vasya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "sdfsfdssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdffdfsdffsdf", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
-            new() { Id = 3, Name = "Лёша", Login = "alex", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } }
+            new() { Id = 0, Name = "Администратор", Login = "Admin", Password = "A123!" },
+            new() { Id = 1, Name = "Вася", Login = "vasya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
+            new() { Id = 3, Name = "Лёша", Login = "alex", Password = "123456" }
         });
             
         _currentUser = UserList[0];

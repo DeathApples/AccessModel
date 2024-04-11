@@ -7,7 +7,7 @@ namespace AccessModel.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private User _user = UserManager.CurrentUser ?? new User { Name = "Администратор", Role = new Role { IsPrivileged = true } };
+    private User _user = UserManager.CurrentUser ?? new User { Name = "Администратор" };
     public User User 
     {
         get => _user; 

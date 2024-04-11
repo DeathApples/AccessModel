@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace AccessModel.Models;
 
 /// <summary>
@@ -6,22 +8,20 @@ namespace AccessModel.Models;
 public class Permissions
 {
     /// <summary>
-    /// Целочисленный идентификатор прав
-    /// </summary>
-    public long Id { get; set; }
-    
-    /// <summary>
     /// Право на чтение
     /// </summary>
+    [Required]
     public bool Read { get; set; }
     
     /// <summary>
     /// Право на запись
     /// </summary>
+    [Required]
     public bool Write { get; set; }
     
     /// <summary>
     /// Право на передачу разрешений другому пользователю
     /// </summary>
+    [Required]
     public bool TakeGrant { get; set; }
 }

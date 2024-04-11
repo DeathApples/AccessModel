@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace AccessModel.Models;
 
 /// <summary>
@@ -8,6 +10,7 @@ public class AccessControlEntry
     /// <summary>
     /// Целочисленный идентификатор записи контроля доступа
     /// </summary>
+    [Required]
     public long Id { get; set; }
     
     /// <summary>
@@ -26,7 +29,7 @@ public class AccessControlEntry
     public Permissions Permissions { get; set; }
 
     /// <summary>
-    /// Базовый конструктор класса Записи Контроля Доступа
+    /// Базовый конструктор класса записи контроля доступа
     /// </summary>
     public AccessControlEntry()
     {
