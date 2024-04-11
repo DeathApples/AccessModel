@@ -21,7 +21,16 @@ public class ResourceViewModel : ViewModelBase
     public AccessControlEntry CurrentResource
     {
         get => _currentResource;
-        set => this.RaiseAndSetIfChanged(ref _currentResource, value);
+        set
+        {
+            UserList = new ObservableCollection<AccessControlEntry>(
+                AccessControlEntryManager.GetAccessControlEntries(value.Resource)
+                ?? new List<AccessControlEntry>()
+            );
+            
+            CurrentUser = UserList.First(entry => entry.User.Id == UserManager.CurrentUser?.Id);
+            this.RaiseAndSetIfChanged(ref _currentResource, value);
+        }
     }
 
     private ObservableCollection<AccessControlEntry> _userList;
@@ -40,7 +49,13 @@ public class ResourceViewModel : ViewModelBase
 
     public void CreateResource()
     {
-        AccessControlEntryManager.CreateAccessControlEntry();
+        ResourceList.Add( AccessControlEntryManager.CreateAccessControlEntry());
+        CurrentResource = ResourceList.Last();
+    }
+
+    public void SaveResource()
+    {
+        
     }
 
     public void DeleteResource()

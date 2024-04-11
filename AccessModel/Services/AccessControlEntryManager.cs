@@ -12,7 +12,9 @@ public static class AccessControlEntryManager
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries?
-            .Where(accessControlEntry => accessControlEntry.User == UserManager.CurrentUser)
+            .Include(entry => entry.Resource)
+            .Include(entry => entry.User)
+            .Where(entry => entry.User == UserManager.CurrentUser)
             .ToList();
     }
     
@@ -20,24 +22,31 @@ public static class AccessControlEntryManager
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries?
-            .Where(accessControlEntry => accessControlEntry.Resource == resource)
+            .Include(entry => entry.Resource)
+            .Include(entry => entry.User)
+            .Where(entry => entry.Resource == resource)
             .ToList();
     }
 
-    public static bool CreateAccessControlEntry()
+    public static AccessControlEntry CreateAccessControlEntry()
     {
         using var db = new AccessModelContext();
-        var accessControlEntry = new AccessControlEntry {
-            User = UserManager.CurrentUser!,
-            Permissions = new Permissions { Read = true, Write = true, TakeGrant = true },
-            Resource = new Resource { Name = "Unnamed", Owner = UserManager.CurrentUser!, CreateDateTime = DateTime.Now }
+        var currentUser = db.Users.First(u => u.Id == UserManager.CurrentUser!.Id);
+        var entry = new AccessControlEntry {
+            User = currentUser,
+            IsRead = true, IsWrite = true, IsTakeGrant = true,
+            Resource = new Resource { Name = "Unnamed", Owner = currentUser, CreateDateTime = DateTime.UtcNow }
         };
         
-        db.AccessControlEntries?.Add(accessControlEntry);
-        if (db.Entry(accessControlEntry).State != EntityState.Added) return false;
+        /*var entry = db.AccessControlEntries.Add(new AccessControlEntry { IsRead = true, IsWrite = true, IsTakeGrant = true }).Entity;
+        var resource = db.Resources.Add(new Resource { Name = "Unnamed", CreateDateTime = DateTime.UtcNow }).Entity;
+        resource.Owner = UserManager.CurrentUser!;
+        entry.User = UserManager.CurrentUser!;
+        entry.Resource = resource;*/
+        db.AccessControlEntries.Add(entry);
         db.SaveChanges();
         
-        return true;
+        return entry;
     }
 
     public static void DeleteAccessControlEntry()

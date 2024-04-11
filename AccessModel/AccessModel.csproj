@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Converters\" />
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
@@ -28,7 +27,6 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
         <AvaloniaResource Include="Assets\**" />
-        <Folder Include="Converters\" />
         <AvaloniaResource Include="Assets\**" />
         <TrimmerRootAssembly Include="Avalonia.Themes.Fluent" />
         <PackageReference Include="Avalonia" Version="0.10.18" />

@@ -10,7 +10,7 @@ namespace AccessModel.Services;
 /// <summary>
 /// Менеджер пользователей
 /// </summary>
-public class UserManager
+public static class UserManager
 {
     /// <summary>
     /// Пользователь, под которым был выполнен вход

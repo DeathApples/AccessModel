@@ -55,7 +55,7 @@ public static class SecurityManager
     /// <param name="permissions"> Права на защищаемый объект </param>
     /// <param name="resource"> Защищаемый объект, права на который предоставляются другому пользователю </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool GrantPermission(User owner, User user, Resource resource, Permissions permissions)
+    public static bool GrantPermission(User owner, User user, Resource resource)
     {
         
         

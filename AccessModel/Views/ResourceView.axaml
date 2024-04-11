@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:AccessModel.ViewModels"
-             xmlns:conv="using:AccessModel.Converters"
              x:Class="AccessModel.Views.ResourceView"
              x:DataType="vm:ResourceViewModel"
              d:DesignWidth="1540" d:DesignHeight="730">
@@ -15,10 +14,6 @@
     <Design.DataContext>
         <vm:ResourceViewModel/>
     </Design.DataContext>
-    
-    <UserControl.Resources>
-        <conv:PermissionsConverter x:Key="PermissionsConverter" />
-    </UserControl.Resources>
     
     <Grid>
         
@@ -91,40 +86,37 @@
                         <TextBlock Text="Наименование документа" />
                         <TextBox Classes="ResourceName" x:Name="NameResource"
                                  IsEnabled="{Binding IsEditMode}"
-                                 Text="{Binding CurrentResource.Resource.Name}" />
+                                 Text="{Binding CurrentUser.Resource.Name}" />
                         
                         <TextBlock Text="Текущие права" />
                         <StackPanel Classes="Permissions">
                             <StackPanel>
                                 <CheckBox Margin="7, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentResource.Permissions, 
-                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=read}" />
+                                          IsChecked="{Binding CurrentUser.IsRead}" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="6, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentResource.Permissions, 
-                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=write}" />
+                                          IsChecked="{Binding CurrentUser.IsWrite}" />
                                 <TextBlock Text="Write" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="-1, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentResource.Permissions, 
-                                          Converter={StaticResource PermissionsConverter}, ConverterParameter=tg}" />
+                                          IsChecked="{Binding CurrentUser.IsTakeGrant}" />
                                 <TextBlock Text="TG" />
                             </StackPanel>
                         </StackPanel>
                         
                         <TextBlock Text="Владелец" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentResource.Resource.Owner.Name}" />
+                                   Text="{Binding CurrentUser.Resource.Owner.Name}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentResource.Resource.CreateDateTime}" />
+                                   Text="{Binding CurrentUser.Resource.CreateDateTime}" />
                         
                     </StackPanel>
                 </Border>
@@ -132,7 +124,7 @@
                 <GridSplitter Grid.Row="1" />
                 
                 <Border Grid.Row="2" Classes="Content">
-                    <TextBox Text="Hello" /> 
+                    <TextBox Text="{Binding CurrentUser.Resource.Content}" /> 
                 </Border>
                 
             </Grid>

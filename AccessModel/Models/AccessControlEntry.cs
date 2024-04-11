@@ -14,6 +14,21 @@ public class AccessControlEntry
     public long Id { get; set; }
     
     /// <summary>
+    /// Право на чтение
+    /// </summary>
+    public bool IsRead { get; set; }
+
+    /// <summary>
+    /// Право на запись
+    /// </summary>
+    public bool IsWrite { get; set; }
+
+    /// <summary>
+    /// Право на передачу разрешений другому пользователю
+    /// </summary>
+    public bool IsTakeGrant { get; set; }
+    
+    /// <summary>
     /// Пользователь системы
     /// </summary>
     public User User { get; set; }
@@ -22,11 +37,6 @@ public class AccessControlEntry
     /// Защищаемый объект
     /// </summary>
     public Resource Resource { get; set; }
-    
-    /// <summary>
-    /// Разрешения, которыми обладает данный пользователь над данным объектом
-    /// </summary>
-    public Permissions Permissions { get; set; }
 
     /// <summary>
     /// Базовый конструктор класса записи контроля доступа
@@ -35,6 +45,5 @@ public class AccessControlEntry
     {
         User = new User();
         Resource = new Resource();
-        Permissions = new Permissions();
     }
 }

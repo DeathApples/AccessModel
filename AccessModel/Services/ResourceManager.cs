@@ -20,8 +20,8 @@ public static class ResourceManager
     {
         var resources = new List<Resource>();
         using var db = new AccessModelContext();
-        var list = db.AccessControlEntries?.Include(ace => ace.Permissions)
-            .Where(ace => ace.Permissions.Read || ace.Permissions.Write || ace.Permissions.TakeGrant)
+        var list = db.AccessControlEntries?
+            .Where(entry => entry.IsRead || entry.IsWrite || entry.IsTakeGrant)
             .Where(p=> p.User == user)
             .ToList();
         //return list;
