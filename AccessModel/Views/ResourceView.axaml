@@ -111,7 +111,7 @@
                         </StackPanel>
                         
                         <TextBlock Text="Владелец" />
-                        <TextBlock Classes="PropertyValue"
+                        <TextBlock Classes="PropertyValue" MinHeight="41"
                                    Text="{Binding CurrentUser.Resource.Owner.Name}" />
                         
                         <TextBlock Text="Дата создания" />

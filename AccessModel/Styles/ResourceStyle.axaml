@@ -240,6 +240,10 @@
         <Setter Property="Background" Value="#7c2d90" />
     </Style>
     
+    <Style Selector="CheckBox:checked:disabled /template/ Border#NormalRectangle">
+        <Setter Property="Background" Value="#565656" />
+    </Style>
+    
     <Style Selector="CheckBox /template/ Border#NormalRectangle">
         <Setter Property="BorderBrush" Value="DimGray"/>
     </Style>
