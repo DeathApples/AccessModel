@@ -25,9 +25,9 @@
         
         <Border Grid.Row="0" Classes="Exit">
             <StackPanel>
-                <Button Content="ПОЛЬЗОВАТЕЛИ"
-                        IsVisible="{Binding IsAdmin}"
-                        Command="{Binding ChangePage}" />
+                <Button Content="{Binding TextChangePageButton}"
+                        Command="{Binding ChangePage}"
+                        IsVisible="{Binding IsAdmin}" />
                 <Button Content="ВЫХОД" />
             </StackPanel>
         </Border>

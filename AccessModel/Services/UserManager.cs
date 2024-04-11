@@ -60,17 +60,17 @@ public class UserManager
     public static bool CreateUser(string name, string login, string password)
     {
         using var db = new AccessModelContext();
-        var user = new User
-        {
+        var user = new User {
             Name = name,
             Login = login,
             Password = BCrypt.Net.BCrypt.HashPassword(password)
         };
+        
         db.Users?.Add(user);
         if (db.Entry(user).State != EntityState.Added) return false;
         db.SaveChanges();
+        
         return true;
-
     }
 
     /// <summary>

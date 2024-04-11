@@ -1,6 +1,7 @@
 using System.Reactive;
 using ReactiveUI;
 using AccessModel.Models;
+using AccessModel.Services;
 
 namespace AccessModel.ViewModels;
 
@@ -56,5 +57,13 @@ public class AuthenticationViewModel : ViewModelBase
     {
         SignInCommand = ReactiveCommand.Create(SignIn);
         SignUpCommand = ReactiveCommand.Create(SignUp);
+        
+        UserManager.CurrentUser = UserManager.GetUser("admin");
+        
+        if (UserManager.CurrentUser == null)
+        {
+            UserManager.CreateUser("Администратор", "admin", "A123!");
+            UserManager.CurrentUser = UserManager.GetUser("admin");
+        }
     }
 }

@@ -12,13 +12,13 @@ public class Permissions
     /// </summary>
     [Required]
     public bool Read { get; set; }
-    
+
     /// <summary>
     /// Право на запись
     /// </summary>
     [Required]
     public bool Write { get; set; }
-    
+
     /// <summary>
     /// Право на передачу разрешений другому пользователю
     /// </summary>

@@ -44,6 +44,6 @@ public class Resource
         Name = string.Empty;
         Content = string.Empty;
         Owner = new User();
-        CreateDateTime = DateTime.Now;
+        CreateDateTime = new DateTime();
     }
 }

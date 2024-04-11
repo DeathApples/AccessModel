@@ -28,8 +28,8 @@ public class User
     /// <summary>
     /// Хэш пароля пользователя
     /// </summary>
-    [MaxLength(50)]
+    [MaxLength(1024)]
     public string Password { get; set; } = string.Empty;
 
-    public bool IsAdmin => Id == 0;
+    public bool IsAdmin => Id == 1;
 }

@@ -48,8 +48,8 @@
         
         <Border Grid.Column="0" Classes="RoundBorder">
             <ListBox Classes="Resources"
-                     Items="{Binding AclList}"
-                     SelectedItem="{Binding CurrentAcl}">
+                     Items="{Binding ResourceList}"
+                     SelectedItem="{Binding CurrentResource}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
@@ -69,7 +69,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
                             <Image Source="/Assets/account.png" />
-                            <TextBlock Classes="DocumentName" Text="{Binding Name}" />
+                            <TextBlock Classes="DocumentName" Text="{Binding User.Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -91,28 +91,28 @@
                         <TextBlock Text="Наименование документа" />
                         <TextBox Classes="ResourceName" x:Name="NameResource"
                                  IsEnabled="{Binding IsEditMode}"
-                                 Text="{Binding CurrentAcl.Resource.Name}" />
+                                 Text="{Binding CurrentResource.Resource.Name}" />
                         
                         <TextBlock Text="Текущие права" />
                         <StackPanel Classes="Permissions">
                             <StackPanel>
                                 <CheckBox Margin="7, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          IsChecked="{Binding CurrentResource.Permissions, 
                                           Converter={StaticResource PermissionsConverter}, ConverterParameter=read}" />
                                 <TextBlock Text="Read" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="6, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          IsChecked="{Binding CurrentResource.Permissions, 
                                           Converter={StaticResource PermissionsConverter}, ConverterParameter=write}" />
                                 <TextBlock Text="Write" />
                             </StackPanel>
                             <StackPanel>
                                 <CheckBox Margin="-1, 0"
                                           IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentAcl.Permissions, 
+                                          IsChecked="{Binding CurrentResource.Permissions, 
                                           Converter={StaticResource PermissionsConverter}, ConverterParameter=tg}" />
                                 <TextBlock Text="TG" />
                             </StackPanel>
@@ -120,11 +120,11 @@
                         
                         <TextBlock Text="Владелец" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentAcl.Resource.Owner.Name}" />
+                                   Text="{Binding CurrentResource.Resource.Owner.Name}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentAcl.Resource.CreateDateTime}" />
+                                   Text="{Binding CurrentResource.Resource.CreateDateTime}" />
                         
                     </StackPanel>
                 </Border>

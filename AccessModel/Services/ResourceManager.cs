@@ -18,11 +18,14 @@ public static class ResourceManager
     /// <returns> Список защищаемых объектов </returns>
     public static List<Resource> GetObjects(User user)
     {
-        //var resources = new List<Resource>();
-        /*using var db = new AccessModelContext();
-        var list = db.UsersAccessControlEntries?.Include(p => p.Permission).Where(p =>
-            p.Permission.Own == true || p.Permission.Read == true || p.Permission.Write == true ||
-                               p.Permission.TakeGrant == true).Where(p=> p.User == user).ToList();*/
+        var resources = new List<Resource>();
+        using var db = new AccessModelContext();
+        var list = db.AccessControlEntries?.Include(ace => ace.Permissions)
+            .Where(ace => ace.Permissions.Read || ace.Permissions.Write || ace.Permissions.TakeGrant)
+            .Where(p=> p.User == user)
+            .ToList();
+        //return list;
+        
         throw new NotImplementedException();
     }
 
