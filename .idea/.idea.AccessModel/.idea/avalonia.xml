@@ -7,10 +7,12 @@
         <entry key="AccessModel/Styles/AuthenticationStyle.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Styles/MainStyle.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Styles/ResourceStyle.axaml" value="AccessModel/AccessModel.csproj" />
+        <entry key="AccessModel/Styles/UserStyle.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/AuthenticationWindow.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/MainWindow.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/ResourceView.axaml" value="AccessModel/AccessModel.csproj" />
         <entry key="AccessModel/Views/StartWindow.axaml" value="AccessModel/AccessModel.csproj" />
+        <entry key="AccessModel/Views/UserView.axaml" value="AccessModel/AccessModel.csproj" />
       </map>
     </option>
   </component>

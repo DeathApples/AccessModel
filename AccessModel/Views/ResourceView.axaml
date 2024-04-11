@@ -6,7 +6,7 @@
              xmlns:conv="using:AccessModel.Converters"
              x:Class="AccessModel.Views.ResourceView"
              x:DataType="vm:ResourceViewModel"
-             d:DesignWidth="800" d:DesignHeight="650">
+             d:DesignWidth="1540" d:DesignHeight="730">
     
     <UserControl.Styles>
         <StyleInclude Source="/Styles/ResourceStyle.axaml" />
@@ -18,18 +18,24 @@
     
     <UserControl.Resources>
         <conv:PermissionsConverter x:Key="PermissionsConverter" />
-        <conv:ResourceConverter x:Key="ResourceConverter" />
     </UserControl.Resources>
     
-    <Grid ColumnDefinitions="2*, Auto, *">
+    <Grid>
         
-        <Border Grid.Column="1" Classes="Action">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="842" />
+            <ColumnDefinition Width="218" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition MinWidth="386" MaxWidth="386" />
+        </Grid.ColumnDefinitions>
+        
+        <Border Grid.Column="2" Classes="Action">
             <StackPanel>
-                <Button Command="{Binding CreateResource}">
-                    <Image Source="/Assets/entry-add.png" />
-                </Button>
                 <Button Command="{Binding ChangeEditMode}">
                     <Image Source="/Assets/entry-edit.png" />
+                </Button>
+                <Button Command="{Binding CreateResource}">
+                    <Image Source="/Assets/entry-add.png" />
                 </Button>
                 <Button Command="{Binding DeleteResource}">
                     <Image Source="/Assets/entry-remove.png" />
@@ -41,23 +47,36 @@
         </Border>
         
         <Border Grid.Column="0" Classes="RoundBorder">
-            <ScrollViewer Classes="Resources">
-                <ListBox Items="{Binding AclList}"
-                         SelectedItem="{Binding CurrentAcl}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Image Source="/Assets/document.png" />
-                                <TextBlock Classes="DocumentName"
-                                           Text="{Binding Resource.Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
+            <ListBox Classes="Resources"
+                     Items="{Binding AclList}"
+                     SelectedItem="{Binding CurrentAcl}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Image Source="/Assets/document.png" />
+                            <TextBlock Classes="DocumentName" Text="{Binding Resource.Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
         
-        <Border Grid.Column="2" Classes="RoundBorder">
+        <Border Grid.Column="1" Classes="RoundBorder">
+            <ListBox Classes="Users"
+                     Items="{Binding UserList}"
+                     SelectedItem="{Binding CurrentUser}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Image Source="/Assets/account.png" />
+                            <TextBlock Classes="DocumentName" Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        
+        <Border Grid.Column="3" Classes="RoundBorder">
             <Grid Margin="6">
                 
                 <Grid.RowDefinitions>

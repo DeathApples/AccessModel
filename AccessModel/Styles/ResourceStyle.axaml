@@ -67,26 +67,20 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="ScrollViewer.Resources">
-        <Style.Setters>
-            <Setter Property="Margin" Value="6" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+    <Style Selector="ListBox.Resources > ListBoxItem:selected /template/ ContentPresenter">
         <Style.Setters>
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="DimGray" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+    <Style Selector="ListBox.Resources > ListBoxItem:pointerover /template/ ContentPresenter">
         <Style.Setters>
             <Setter Property="Background" Value="#292929" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="ListBoxItem">
+    <Style Selector="ListBox.Resources > ListBoxItem">
         <Style.Setters>
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="CornerRadius" Value="12" />
@@ -94,8 +88,10 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="ScrollViewer.Resources > ListBox">
+    <Style Selector="ListBox.Resources">
         <Style.Setters>
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="6" />
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" Margin="1" />
@@ -104,7 +100,7 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="ScrollViewer.Resources > Image">
+    <Style Selector="ListBox.Resources > Image">
         <Style.Setters>
             <Setter Property="Height" Value="128" />
             <Setter Property="Width" Value="128" />
@@ -114,7 +110,42 @@
     <Style Selector="TextBlock.DocumentName">
         <Style.Setters>
             <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxWidth" Value="140" />
             <Setter Property="FontSize" Value="16" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBox.Users">
+        <Style.Setters>
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" Margin="1" />
+                </ItemsPanelTemplate>
+            </Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBox.Users > ListBoxItem:selected /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBox.Users > ListBoxItem:pointerover /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="Background" Value="#292929" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBox.Users > ListBoxItem">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="1" />
         </Style.Setters>
     </Style>
     
@@ -249,10 +280,6 @@
             <Setter Property="ResizeDirection" Value="Rows" />
             <Setter Property="Background" Value="Transparent" />
         </Style.Setters>
-    </Style>
-    
-    <Style Selector="ScrollBar">
-        
     </Style>
     
     <Style Selector="Image">

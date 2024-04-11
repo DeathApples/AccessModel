@@ -3,13 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:AccessModel.ViewModels"
-        xmlns:viewModels="clr-namespace:AccessModel.ViewModels"
         x:Class="AccessModel.Views.AuthenticationWindow"
-        x:DataType="viewModels:AuthenticationViewModel"
-        Width="480" Height="620" CanResize="False"
-        WindowStartupLocation="CenterScreen"
-        Icon="/Assets/avalonia-logo.ico" 
-        Title="Авторизация">
+        x:DataType="vm:AuthenticationViewModel">
     
     <Window.Styles>
         <StyleInclude Source="/Styles/AuthenticationStyle.axaml" />
@@ -19,32 +14,18 @@
         <vm:AuthenticationViewModel />
     </Design.DataContext>
     
-    <TabControl Classes="Authentication">
-    
-        <TabItem Header="ВХОД">
-            <StackPanel Classes="Authentication">
-                <TextBlock Classes="Authentication" Text="Логин" />
-                <TextBox Classes="Authentication" Text="{Binding Login}" />
-                <TextBlock Classes="Authentication" Text="Пароль" />
-                <TextBox Classes="Authentication Password" Text="{Binding Password}" />
-                <Button Classes="Authentication" Content="ВОЙТИ" Command="{Binding SignInCommand}" />
-            </StackPanel>
-        </TabItem>
-    
-        <TabItem Header="РЕГИСТРАЦИЯ">
-            <StackPanel Classes="Authentication">
-                <TextBlock Classes="Authentication" Text="Имя" />
-                <TextBox Classes="Authentication" Text="{Binding Name}" />
-                <TextBlock Classes="Authentication" Text="Логин" />
-                <TextBox Classes="Authentication" Text="{Binding Login}" />
-                <TextBlock Classes="Authentication" Text="Пароль" />
-                <TextBox Classes="Authentication Password" Text="{Binding Password}" />
-                <TextBlock Classes="Authentication" Text="Подтвердите пароль" />
-                <TextBox Classes="Authentication Password" Text="{Binding PasswordConfirmation}" />
-                <Button Classes="Authentication" Content="ЗАРЕГИСТРИРОВАТЬСЯ" Command="{Binding SignUpCommand}" />
-            </StackPanel>
-        </TabItem>
-    
-    </TabControl>
+    <StackPanel VerticalAlignment="Center">
+        
+        <TextBlock Classes="Title" Text="ВХОД" />
+        
+        <StackPanel Classes="Authentication">
+            <TextBlock Classes="Authentication" Text="Логин" />
+            <TextBox Classes="Authentication" Text="{Binding Login}" />
+            <TextBlock Classes="Authentication" Text="Пароль" />
+            <TextBox Classes="Authentication Password" Text="{Binding Password}" />
+            <Button Classes="Authentication" Content="ВОЙТИ" Command="{Binding SignInCommand}" />
+        </StackPanel>
+        
+    </StackPanel>
         
 </Window>

@@ -1,23 +1,25 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <Style Selector="TabControl.Authentication">
+    <Style Selector="Window">
         <Style.Setters>
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0, 16, 0, 0" />
+            <Setter Property="WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="Icon" Value="/Assets/avalonia-logo.ico" />
+            <Setter Property="Background" Value="#343434" />
+            <Setter Property="Title" Value="Авторизация" />
+            <Setter Property="CanResize" Value="False" />
+            <Setter Property="Height" Value="620" />
+            <Setter Property="Width" Value="480" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="WrapPanel">
+    <Style Selector="TextBlock.Title">
         <Style.Setters>
+            <Setter Property="FontSize" Value="42" />
+            <Setter Property="FontWeight" Value="ExtraLight" />
             <Setter Property="HorizontalAlignment" Value="Center" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="Border#PART_SelectedPipe">
-        <Style.Setters>
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="#b054c7" />
+            <Setter Property="Margin" Value="0, 0, 0, 60" />
+            <Setter Property="Foreground" Value="Snow" />
         </Style.Setters>
     </Style>
     
@@ -31,29 +33,34 @@
     
     <Style Selector="TextBlock.Authentication">
         <Style.Setters>
-            <Setter Property="Margin" Value="12, 28, 0, 2" />
+            <Setter Property="Margin" Value="12, 48, 0, 2" />
+            <Setter Property="Foreground" Value="Snow" />
         </Style.Setters>
     </Style>
     
     <Style Selector="TextBox.Authentication:pointerover /template/ Border">
         <Style.Setters>
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Background" Value="#f3e4f5" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#404040" />
             <Setter Property="BorderBrush" Value="#b054c7" />
         </Style.Setters>
     </Style>
     
     <Style Selector="TextBox.Authentication:focus /template/ Border">
-        <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="Background" Value="#f3e4f5" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Background" Value="#363636" />
+        <Setter Property="BorderBrush" Value="DimGray" />
     </Style>
     
     <Style Selector="TextBox.Authentication">
         <Style.Setters>
-            <Setter Property="Background" Value="#f3e4f5" />
-            <Setter Property="SelectionBrush" Value="#c88dd7" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CaretBrush" Value="Snow" />
+            <Setter Property="Foreground" Value="Snow" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="#404040" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+            <Setter Property="SelectionBrush" Value="#7c2d90" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style.Setters>
     </Style>
@@ -67,7 +74,14 @@
     <Style Selector="Button.Authentication:pointerover /template/ ContentPresenter">
         <Style.Setters>
             <Setter Property="TextBlock.Foreground" Value="Snow" />
-            <Setter Property="Background" Value="#a13fba" />
+            <Setter Property="Background" Value="#661f78" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Button.Authentication:pressed /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="TextBlock.Foreground" Value="Snow" />
+            <Setter Property="Background" Value="#4c0e5b" />
         </Style.Setters>
     </Style>
     
@@ -75,13 +89,15 @@
         <Style.Setters>
             <Setter Property="Height" Value="42" />
             <Setter Property="Width" Value="416" />
+            <Setter Property="FontSize" Value="16" />
             <Setter Property="Cursor" Value="Hand" /> 
             <Setter Property="Foreground" Value="Snow" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Background" Value="#b054c7" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Background" Value="#7c2d90" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0, 128, 0, 0" />
+            <Setter Property="Margin" Value="0, 136, 0, 0" />
         </Style.Setters>
     </Style>
     

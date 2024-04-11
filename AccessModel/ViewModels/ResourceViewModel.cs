@@ -13,18 +13,47 @@ namespace AccessModel.ViewModels;
 
 public class ResourceViewModel : ViewModelBase
 {
-    private readonly SourceList<AccessControlEntry> _sourceList = new();
-    //public IObservable<IChangeSet<AccessControlEntry>> Connect() => _sourceList.Connect();
-    
-    private readonly ReadOnlyObservableCollection<AccessControlEntry> _aclList;
-    public ReadOnlyObservableCollection<AccessControlEntry> AclList => _aclList;
-    
-    /*private ObservableCollection<AccessControlEntry>? _aclList;
-    public ObservableCollection<AccessControlEntry>? AclList
+    private ObservableCollection<AccessControlEntry> _aclList;
+    public ObservableCollection<AccessControlEntry> AclList
     {
         get => _aclList;
         set => this.RaiseAndSetIfChanged(ref _aclList, value);
-    }*/
+    }
+    
+    private AccessControlEntry _currentAcl;
+    public AccessControlEntry CurrentAcl
+    {
+        get => _currentAcl;
+        set => this.RaiseAndSetIfChanged(ref _currentAcl, value);
+    }
+
+    private ObservableCollection<User> _userList;
+    public ObservableCollection<User> UserList
+    {
+        get => _userList;
+        set => this.RaiseAndSetIfChanged(ref _userList, value);
+    }
+    
+    private User _currentUser;
+    public User CurrentUser
+    {
+        get => _currentUser;
+        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+    }
+
+    public void CreateResource()
+    {
+        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } };
+        var currentPermissions = new Permissions { Read = true, Write = true, TakeGrant = true };
+        
+        AclList.Add(new AccessControlEntry { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "123", Owner = currentUser, CreateDateTime = DateTime.Now } });
+    }
+
+    public void DeleteResource()
+    {
+        AclList.Remove(CurrentAcl);
+        if (AclList.Count > 0) CurrentAcl = AclList.First();
+    }
     
     private bool _isEditMode;
     public bool IsEditMode
@@ -33,40 +62,14 @@ public class ResourceViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isEditMode, value);
     }
 
-    private AccessControlEntry _currentAcl;
-    public AccessControlEntry CurrentAcl
-    {
-        get => _currentAcl;
-        set => this.RaiseAndSetIfChanged(ref _currentAcl, value);
-    }
-
-    public void CreateResource()
-    {
-        var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } };
-        var currentPermissions = new Permissions { Read = true, Write = true, TakeGrant = true };
-        
-        _sourceList.Add(new AccessControlEntry { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "123", Owner = currentUser, CreateDateTime = DateTime.Now } });
-    }
-
-    public void DeleteResource()
-    {
-        _sourceList.Remove(CurrentAcl);
-        if (AclList.Count > 0) CurrentAcl = AclList.First();
-    }
-
     public void ChangeEditMode() { IsEditMode = !IsEditMode; }
 
     public ResourceViewModel()
     {
-        _sourceList.Connect()
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Bind(out _aclList)
-            .Subscribe();
-        
         var currentUser = new User { Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } };
         var currentPermissions = new Permissions { Read = true, Write = true, TakeGrant = true };
         
-        _sourceList.AddRange(new List<AccessControlEntry>  {
+        _aclList = new ObservableCollection<AccessControlEntry>(new List<AccessControlEntry>  {
             new() { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "01", Owner = currentUser, CreateDateTime = new DateTime(2024, 03, 01) } },
             new() { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "02", Owner = currentUser, CreateDateTime = new DateTime(2024, 03, 02) } },
             new() { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "03", Owner = currentUser, CreateDateTime = new DateTime(2024, 03, 03) } },
@@ -98,7 +101,68 @@ public class ResourceViewModel : ViewModelBase
             new() { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "29", Owner = currentUser, CreateDateTime = new DateTime(2024, 03, 29) } },
             new() { User = currentUser, Permissions = currentPermissions, Resource = new Resource { Name = "30", Owner = currentUser, CreateDateTime = new DateTime(2024, 03, 30) } }
         });
-
+        
         _currentAcl = AclList[0];
+        
+        _userList = new ObservableCollection<User>(new List<User> {
+            new() { Id = 0, Name = "Администратор", Login = "Admin", Password = "A123!", Role = new Role { Name = "Admin", IsPrivileged = true } },
+            new() { Id = 1, Name = "Вася", Login = "vasya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "sdfsfdssdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdffdfsdffsdf", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } },
+            new() { Id = 3, Name = "Лёша", Login = "alex", Password = "123456", Role = new Role { Name = "User", IsPrivileged = false } }
+        });
+            
+        _currentUser = UserList[0];
     }
 }

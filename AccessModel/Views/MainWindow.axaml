@@ -14,7 +14,7 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, *, Auto" Classes="Main">
         
         <Border Grid.Row="0" Classes="User">
             <StackPanel>
@@ -25,13 +25,12 @@
         
         <Border Grid.Row="0" Classes="Exit">
             <StackPanel>
-                <Button IsVisible="{Binding User.Role.IsPrivileged}" Content="ПОЛЬЗОВАТЕЛИ" />
+                <Button IsVisible="{Binding IsAdmin}" Content="ПОЛЬЗОВАТЕЛИ" />
                 <Button Content="ВЫХОД" />
             </StackPanel>
-            
         </Border>
         
-        <ContentControl Grid.Row="1" Content="{Binding ResourceViewModel}" />
+        <ContentControl Grid.Row="1" Content="{Binding UserViewModel}" />
         
         <Border Grid.Row="2" Classes="Status">
             <TextBlock Text="{Binding Status}" />
