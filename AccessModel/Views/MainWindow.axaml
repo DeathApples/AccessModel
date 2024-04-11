@@ -19,7 +19,7 @@
         <Border Grid.Row="0" Classes="User">
             <StackPanel>
                 <Image Source="/Assets/account.png" />
-                <TextBlock Text="{Binding User.Name}" />
+                <TextBlock Text="{Binding CurrentUser.Name}" />
             </StackPanel>
         </Border>
         
