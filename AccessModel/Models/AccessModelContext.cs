@@ -20,6 +20,7 @@ public sealed class AccessModelContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.Entity<Permissions>()
+            .HasKey(p => new { p.Read, p.Write, p.TakeGrant });
     }
 }
