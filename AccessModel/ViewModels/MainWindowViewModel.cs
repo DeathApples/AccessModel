@@ -7,25 +7,20 @@ namespace AccessModel.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private User _user = UserManager.CurrentUser ?? new User { Name = "Администратор" };
+    private User _user;
     public User User 
     {
         get => _user; 
         set => this.RaiseAndSetIfChanged(ref _user, value); 
     }
     
-    private ViewModelBase _resourceViewModel = new ResourceViewModel();
-    public ViewModelBase ResourceViewModel
+    private readonly ViewModelBase[] _pages;
+
+    private ViewModelBase _currentPage;
+    public ViewModelBase CurrentPage
     {
-        get => _resourceViewModel;
-        private set => this.RaiseAndSetIfChanged(ref _resourceViewModel, value);
-    }
-    
-    private ViewModelBase _userViewModel = new UserViewModel();
-    public ViewModelBase UserViewModel
-    {
-        get => _userViewModel;
-        private set => this.RaiseAndSetIfChanged(ref _userViewModel, value);
+        get => _currentPage;
+        private set => this.RaiseAndSetIfChanged(ref _currentPage, value);
     }
     
     private string _status = "Успешно";
@@ -36,9 +31,23 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public bool IsAdmin => User.Id.Equals(0);
+
+    public void ChangePage()
+    {
+        CurrentPage = _currentPage is UserViewModel ? _pages[0] : _pages[1];
+    }
     
     public MainWindowViewModel()
     {
         AccessModelContext context = new();
+        
+        _user = UserManager.CurrentUser ?? new User { Name = "Администратор" };
+        
+        _pages = new ViewModelBase[] {
+            new ResourceViewModel(),
+            new UserViewModel()
+        };
+
+        _currentPage = _pages[0];
     }
 }

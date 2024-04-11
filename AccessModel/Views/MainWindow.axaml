@@ -25,12 +25,14 @@
         
         <Border Grid.Row="0" Classes="Exit">
             <StackPanel>
-                <Button IsVisible="{Binding IsAdmin}" Content="ПОЛЬЗОВАТЕЛИ" />
+                <Button Content="ПОЛЬЗОВАТЕЛИ"
+                        IsVisible="{Binding IsAdmin}"
+                        Command="{Binding ChangePage}" />
                 <Button Content="ВЫХОД" />
             </StackPanel>
         </Border>
         
-        <ContentControl Grid.Row="1" Content="{Binding UserViewModel}" />
+        <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
         
         <Border Grid.Row="2" Classes="Status">
             <TextBlock Text="{Binding Status}" />

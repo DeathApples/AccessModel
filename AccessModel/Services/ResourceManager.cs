@@ -35,7 +35,7 @@ public static class ResourceManager
     public static string? ReadObject(Resource resource, User user)
     {
         using var db = new AccessModelContext();
-        var res = db.UsersAccessControlEntries?.Include(p => p.Resource)
+        var res = db.AccessControlEntries?.Include(p => p.Resource)
             .FirstOrDefault(p => p.User == user && p.Resource == resource)?.Resource.Content;
         return res;
     }
@@ -63,7 +63,7 @@ public static class ResourceManager
         };
         db.Resources?.Add(resource);
         if (db.Entry(resource).State != EntityState.Added) return false;
-        db.UsersAccessControlEntries?.Add(accessControlEntry);
+        db.AccessControlEntries?.Add(accessControlEntry);
         if (db.Entry(accessControlEntry).State != EntityState.Added) return false;
         db.SaveChanges();
         return true;
