@@ -9,6 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+<<<<<<< HEAD
+=======
+        <Folder Include="Converters\" />
+>>>>>>> dev/backend
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
@@ -18,9 +22,34 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.18" />
+<<<<<<< HEAD
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
+=======
+>>>>>>> dev/backend
         <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+<<<<<<< HEAD
+=======
+        <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+>>>>>>> dev/backend
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
+        <AvaloniaResource Include="Assets\**" />
+        <Folder Include="Converters\" />
+        <AvaloniaResource Include="Assets\**" />
+        <TrimmerRootAssembly Include="Avalonia.Themes.Fluent" />
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+        <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />

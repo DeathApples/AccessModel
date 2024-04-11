@@ -36,4 +36,9 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public bool IsAdmin => User.Id.Equals(0);
+    
+    public MainWindowViewModel()
+    {
+        AccessModelContext context = new();
+    }
 }

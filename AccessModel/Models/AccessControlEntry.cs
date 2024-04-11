@@ -6,6 +6,11 @@ namespace AccessModel.Models;
 public class AccessControlEntry
 {
     /// <summary>
+    /// Целочисленный идентификатор записи контроля доступа
+    /// </summary>
+    public long Id { get; set; }
+    
+    /// <summary>
     /// Пользователь системы
     /// </summary>
     public User User { get; set; }

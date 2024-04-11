@@ -6,6 +6,11 @@ namespace AccessModel.Models;
 public class Permissions
 {
     /// <summary>
+    /// Целочисленный идентификатор прав
+    /// </summary>
+    public long Id { get; set; }
+    
+    /// <summary>
     /// Право на чтение
     /// </summary>
     public bool Read { get; set; }
