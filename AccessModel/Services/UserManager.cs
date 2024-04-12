@@ -1,5 +1,3 @@
-using System;
-using BCrypt.Net;
 using System.Linq;
 using System.Collections.Generic;
 using AccessModel.Models;
@@ -78,19 +76,32 @@ public static class UserManager
     /// Переименование пользователя
     /// </summary>
     /// <param name="user"> Ссылка на пользователя </param>
-    /// <param name="login"> Новое имя пользователя </param>
+    /// <param name="name"> Новое имя пользователя </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool RenameUser(User user, string login)
+    public static bool RenameUser(User user, string name)
     {
         using var db = new AccessModelContext();
-        if (user.Login != login)
-        {
-            user.Login = login;
-            db.Entry(user).State = EntityState.Modified;
-        }
+        user.Name = name;
+        db.Entry(user).State = EntityState.Modified;
         
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
+        return db.SaveChanges() > 0;
+    }
+    
+    /// <summary>
+    /// Смена логина
+    /// </summary>
+    /// <param name="user"> Ссылка на пользователя </param>
+    /// <param name="login"> Новый логин пользователя </param>
+    /// <returns> Успешность выполнения операции </returns>
+    public static bool ChangeLogin(User user, string login)
+    {
+        if (GetUser(login) != null) return false;
+        
+        using var db = new AccessModelContext();
+        user.Login = login;
+        db.Entry(user).State = EntityState.Modified;
+        
+        return db.SaveChanges() > 0;
     }
 
     /// <summary>
@@ -99,20 +110,15 @@ public static class UserManager
     /// <param name="user"> Ссылка на пользователя </param>
     /// <param name="password"> Новый пароль </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool ChangePassword(User? user, string password)
+    public static bool ChangePassword(User user, string password)
     {
+        if (PasswordVerification(user, password)) return false;
+        
         using var db = new AccessModelContext();
-        if (user != null)
-        {
-            if (user.Password != BCrypt.Net.BCrypt.HashPassword(password))
-            {
-                user.Password = BCrypt.Net.BCrypt.HashPassword(password);
-                db.Entry(user).State = EntityState.Modified;
-            }
-            else return true;
-        }
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
+        user.Password = BCrypt.Net.BCrypt.HashPassword(password);
+        db.Entry(user).State = EntityState.Modified;
+        
+        return db.SaveChanges() > 0;
     }
     
     /// <summary>
@@ -120,15 +126,10 @@ public static class UserManager
     /// </summary>
     /// <param name="user"> Ссылка на пользователя </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool DeleteUser(User? user)
+    public static bool DeleteUser(User user)
     {
         using var db = new AccessModelContext();
-        if (user != null)
-        {
-            db.Users?.Remove(user);
-            var countUpdate = db.SaveChanges();
-            return countUpdate > 0;
-        }
-        else return true;
+        db.Users.Remove(user);
+        return db.SaveChanges() > 0;
     }
 }
