@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AccessModel.Models;
 using AccessModel.Services;
+using DynamicData;
 using ReactiveUI;
 
 namespace AccessModel.ViewModels;
@@ -20,6 +21,34 @@ public class UserViewModel : ViewModelBase
     {
         get => _currentUser;
         set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+    }
+    
+    public void CreateUser()
+    {
+        // ToDo: Добавить проверки и реализовать систему оповещений
+        UserManager.CreateUser();
+        UpdateUsers();
+    }
+    
+    public void ChangeUser()
+    {
+        // ToDo: Добавить проверки и реализовать систему оповещений
+        UserManager.ChangeUser(CurrentUser);
+        UpdateUsers();
+    }
+    
+    public void DeleteUser()
+    {
+        // ToDo: Добавить проверки и реализовать систему оповещений
+        UserManager.DeleteUser(CurrentUser);
+        UpdateUsers();
+    }
+
+    private void UpdateUsers()
+    {
+        UserList.Clear();
+        UserList.AddRange(UserManager.GetAllUsers());
+        CurrentUser = UserList.FirstOrDefault() ?? new User();
     }
 
     public UserViewModel()

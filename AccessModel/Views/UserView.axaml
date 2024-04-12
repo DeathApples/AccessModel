@@ -29,9 +29,9 @@
         </DataGrid>
         
         <StackPanel Grid.Row="1" Classes="Action">
-            <Button Content="Сохранить" />
-            <Button Content="Добавить" />
-            <Button Content="Удалить" />
+            <Button Content="Сохранить" Command="{Binding ChangeUser}" />
+            <Button Content="Добавить" Command="{Binding CreateUser}" />
+            <Button Content="Удалить" Command="{Binding DeleteUser}" />
         </StackPanel>
         
     </Grid>

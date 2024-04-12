@@ -56,15 +56,11 @@ public class MainWindowViewModel : ViewModelBase
     {
         AccessModelContext context = new();
         
-        UserManager.CurrentUser = UserManager.GetUser("admin");
-        
-        if (UserManager.CurrentUser == null)
-        {
-            UserManager.CreateUser("Администратор", "admin", "A123!");
-            UserManager.CurrentUser = UserManager.GetUser("admin");
-        }
-        
-        _currentUser = UserManager.CurrentUser!;
+        UserManager.CurrentUser = 
+            UserManager.GetUser("admin") 
+            ?? UserManager.CreateUser("Администратор", "admin", "A123!");
+
+        _currentUser = UserManager.CurrentUser;
         
         _pages = new ViewModelBase[] {
             new ResourceViewModel(),
