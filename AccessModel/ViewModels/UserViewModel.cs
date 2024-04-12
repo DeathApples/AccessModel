@@ -1,72 +1,33 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using AccessModel.Models;
+using AccessModel.Services;
+using ReactiveUI;
 
 namespace AccessModel.ViewModels;
 
 public class UserViewModel : ViewModelBase
 {
-    public ObservableCollection<User> UserList { get; }
+    private ObservableCollection<User> _userList;
+    public ObservableCollection<User> UserList
+    {
+        get => _userList;
+        set => this.RaiseAndSetIfChanged(ref _userList , value);
+    }
+    
+    private User _currentUser;
+    public User CurrentUser
+    {
+        get => _currentUser;
+        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+    }
 
     public UserViewModel()
     {
-        UserList = new ObservableCollection<User>(new List<User> {
-            new() { Id = 0, Name = "Администратор", Login = "Admin", Password = "A123!" },
-            new() { Id = 1, Name = "Вася", Login = "vasya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 2, Name = "Петя", Login = "petya", Password = "123456" },
-            new() { Id = 3, Name = "Лёша", Login = "alex", Password = "123456" }
-        });
+        _userList = new ObservableCollection<User>(
+            UserManager.GetAllUsers()
+        );
+        
+        _currentUser = _userList.FirstOrDefault() ?? new User();
     }
 }

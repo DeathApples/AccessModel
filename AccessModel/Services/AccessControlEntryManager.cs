@@ -8,20 +8,20 @@ namespace AccessModel.Services;
 
 public static class AccessControlEntryManager
 {
-    public static List<AccessControlEntry>? GetAccessControlEntries()
+    public static List<AccessControlEntry> GetAccessControlEntries()
     {
         using var db = new AccessModelContext();
-        return db.AccessControlEntries?
+        return db.AccessControlEntries
             .Include(entry => entry.Resource)
             .Include(entry => entry.User)
             .Where(entry => entry.User == UserManager.CurrentUser)
             .ToList();
     }
     
-    public static List<AccessControlEntry>? GetAccessControlEntries(Resource resource)
+    public static List<AccessControlEntry> GetAccessControlEntries(Resource resource)
     {
         using var db = new AccessModelContext();
-        return db.AccessControlEntries?
+        return db.AccessControlEntries
             .Include(entry => entry.Resource)
             .Include(entry => entry.User)
             .Where(entry => entry.Resource == resource)
@@ -38,11 +38,6 @@ public static class AccessControlEntryManager
             Resource = new Resource { Name = "Unnamed", Owner = currentUser, CreateDateTime = DateTime.UtcNow }
         };
         
-        /*var entry = db.AccessControlEntries.Add(new AccessControlEntry { IsRead = true, IsWrite = true, IsTakeGrant = true }).Entity;
-        var resource = db.Resources.Add(new Resource { Name = "Unnamed", CreateDateTime = DateTime.UtcNow }).Entity;
-        resource.Owner = UserManager.CurrentUser!;
-        entry.User = UserManager.CurrentUser!;
-        entry.Resource = resource;*/
         db.AccessControlEntries.Add(entry);
         db.SaveChanges();
         

@@ -21,10 +21,10 @@ public static class UserManager
     /// Возвращает всех пользователей системы
     /// </summary>
     /// <returns> Список пользователей системы </returns>
-    public static List<User>? GetAllUsers()
+    public static List<User> GetAllUsers()
     {
         using var db = new AccessModelContext();
-        return db.Users?.ToList();
+        return db.Users.ToList();
     }
     
     /// <summary>
@@ -35,66 +35,9 @@ public static class UserManager
     public static User? GetUser(string login)
     {   
         using var db = new AccessModelContext();
-        return db.Users?.FirstOrDefault(p => p.Login == login);
+        return db.Users.FirstOrDefault(p => p.Login == login);
     }
     
-    /// <summary>
-    /// Аутентификация пользователя
-    /// </summary>
-    /// <param name="login"> Имя пользователя </param>
-    /// <param name="password"> Пароль </param>
-    /// <returns> Успешность выполнения операции </returns>
-    public static bool UserVerification(string login, string password)
-    {
-        using var db = new AccessModelContext();
-        return db.Users?.FirstOrDefault(p => p.Login == login && p.Password == BCrypt.Net.BCrypt.HashPassword(password)) != null;
-    }
-    
-    /// <summary>
-    /// Создание пользователя
-    /// </summary>
-    /// <param name="name"> Имя пользователя</param>
-    /// <param name="login"> Логин пользователя </param>
-    /// <param name="password"> Пароль </param>
-    /// <returns> Успешность выполнения операции </returns>
-    public static bool CreateUser(string name, string login, string password)
-    {
-        using var db = new AccessModelContext();
-        var user = new User {
-            Name = name,
-            Login = login,
-            Password = BCrypt.Net.BCrypt.HashPassword(password)
-        };
-        
-        db.Users?.Add(user);
-        if (db.Entry(user).State != EntityState.Added) return false;
-        db.SaveChanges();
-        
-        return true;
-    }
-
-    /// <summary>
-    /// Переименование пользователя
-    /// </summary>
-    /// <param name="user"> Ссылка на пользователя </param>
-    /// <param name="login"> Новое имя пользователя </param>
-    /// <returns> Успешность выполнения операции </returns>
-    public static bool RenameUser(User? user, string login)
-    {
-        using var db = new AccessModelContext();
-        if (user != null)
-        {
-            if (user.Login != login)
-            {
-                user.Login = login;
-                db.Entry(user).State = EntityState.Modified;
-            }
-            else return true;
-        }
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
-    }
-
     /// <summary>
     /// Подтверждение пароля
     /// </summary>
@@ -104,8 +47,50 @@ public static class UserManager
     public static bool PasswordVerification(User user, string password)
     {
         using var db = new AccessModelContext();
-        var hash = db.Users?.FirstOrDefault(p=> p.Login == user.Login)?.Password;
+        var hash = db.Users.FirstOrDefault(p=> p.Login == user.Login)?.Password ?? string.Empty;
         return BCrypt.Net.BCrypt.Verify(password, hash);
+    }
+    
+    /// <summary>
+    /// Создание пользователя
+    /// </summary>
+    /// <param name="name"> Имя пользователя</param>
+    /// <param name="login"> Логин пользователя </param>
+    /// <param name="password"> Пароль </param>
+    /// <returns> Созданный пользователь </returns>
+    public static User? CreateUser(string name, string login, string password)
+    {
+        if (GetUser(login) != null) return null;
+        
+        using var db = new AccessModelContext();
+        var user = new User {
+            Name = name,
+            Login = login,
+            Password = BCrypt.Net.BCrypt.HashPassword(password)
+        };
+        
+        db.Users.Add(user);
+        db.SaveChanges();
+        return user;
+    }
+
+    /// <summary>
+    /// Переименование пользователя
+    /// </summary>
+    /// <param name="user"> Ссылка на пользователя </param>
+    /// <param name="login"> Новое имя пользователя </param>
+    /// <returns> Успешность выполнения операции </returns>
+    public static bool RenameUser(User user, string login)
+    {
+        using var db = new AccessModelContext();
+        if (user.Login != login)
+        {
+            user.Login = login;
+            db.Entry(user).State = EntityState.Modified;
+        }
+        
+        var countUpdate = db.SaveChanges();
+        return countUpdate > 0;
     }
 
     /// <summary>
