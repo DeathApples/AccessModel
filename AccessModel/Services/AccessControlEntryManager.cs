@@ -28,23 +28,34 @@ public static class AccessControlEntryManager
             .ToList();
     }
 
-    public static AccessControlEntry CreateAccessControlEntry()
+    public static bool CreateAccessControlEntry()
     {
         using var db = new AccessModelContext();
-        var currentUser = db.Users.First(u => u.Id == UserManager.CurrentUser!.Id);
         var entry = new AccessControlEntry {
-            User = currentUser,
+            User = UserManager.CurrentUser!,
             IsRead = true, IsWrite = true, IsTakeGrant = true,
-            Resource = new Resource { Name = "Unnamed", Owner = currentUser, CreateDateTime = DateTime.UtcNow }
+            Resource = new Resource { Name = "Unnamed", Owner = UserManager.CurrentUser!, CreateDateTime = DateTime.UtcNow }
         };
         
         db.AccessControlEntries.Add(entry);
-        db.SaveChanges();
+        return db.SaveChanges() > 0;
+    }
+
+    public static bool ChangeAccessControlEntry(AccessControlEntry entry)
+    {
+        using var db = new AccessModelContext();
+        db.Entry(entry.Resource).State = EntityState.Modified;
+        db.Entry(entry).State = EntityState.Modified;
         
-        return entry;
+        return db.SaveChanges() > 0;
     }
 
     public static void DeleteAccessControlEntry()
+    {
+        
+    }
+    
+    public static void DeleteAccessControlEntriesForResource(Resource resource)
     {
         
     }

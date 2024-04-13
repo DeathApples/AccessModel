@@ -75,7 +75,7 @@
             <Grid Margin="6">
                 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" MinHeight="276" />
+                    <RowDefinition Height="*" MinHeight="324" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" MinHeight="160" />
                 </Grid.RowDefinitions>
@@ -118,13 +118,24 @@
                         <TextBlock Classes="PropertyValue"
                                    Text="{Binding CurrentUser.Resource.CreateDateTime}" />
                         
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Сохранить"
+                                    IsVisible="{Binding IsEditMode}"
+                                    Command="{Binding ChangeResource}" />
+                            <Button Content="Отмена" Margin="10, 0, 0, 0"
+                                    IsVisible="{Binding IsEditMode}"
+                                    Command="{Binding ChangeEditMode}" />
+                        </StackPanel>
+                        
                     </StackPanel>
                 </Border>
                 
                 <GridSplitter Grid.Row="1" />
                 
                 <Border Grid.Row="2" Classes="Content">
-                    <TextBox Text="{Binding CurrentUser.Resource.Content}" /> 
+                    <TextBox IsVisible="{Binding CurrentUser.IsRead}"
+                             IsReadOnly="{Binding !CurrentUser.IsWrite}" 
+                             Text="{Binding CurrentUser.Resource.Content}" /> 
                 </Border>
                 
             </Grid>

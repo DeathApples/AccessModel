@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AccessModel.Models;
 using AccessModel.Services;
+using DynamicData;
 
 namespace AccessModel.ViewModels;
 
@@ -23,12 +24,10 @@ public class ResourceViewModel : ViewModelBase
         get => _currentResource;
         set
         {
-            UserList = new ObservableCollection<AccessControlEntry>(
-                AccessControlEntryManager.GetAccessControlEntries(value.Resource)
-                ?? new List<AccessControlEntry>()
-            );
+            UserList.Clear();
+            UserList.AddRange(AccessControlEntryManager.GetAccessControlEntries(value.Resource));
+            CurrentUser = UserList.FirstOrDefault(entry => entry.User.Id == UserManager.CurrentUser?.Id) ?? new AccessControlEntry();
             
-            CurrentUser = UserList.First(entry => entry.User.Id == UserManager.CurrentUser?.Id);
             this.RaiseAndSetIfChanged(ref _currentResource, value);
         }
     }
@@ -49,19 +48,27 @@ public class ResourceViewModel : ViewModelBase
 
     public void CreateResource()
     {
-        ResourceList.Add( AccessControlEntryManager.CreateAccessControlEntry());
-        CurrentResource = ResourceList.Last();
+        AccessControlEntryManager.CreateAccessControlEntry();
+        UpdateResources();
     }
 
-    public void SaveResource()
+    public void ChangeResource()
     {
-        
+        AccessControlEntryManager.ChangeAccessControlEntry(CurrentUser);
+        ChangeEditMode();
     }
 
     public void DeleteResource()
     {
-        ResourceList.Remove(CurrentResource);
-        if (ResourceList.Count > 0) CurrentResource = ResourceList.First();
+        AccessControlEntryManager.DeleteAccessControlEntriesForResource(CurrentResource.Resource);
+        UpdateResources();
+    }
+
+    private void UpdateResources()
+    {
+        ResourceList.Clear();
+        ResourceList.AddRange(AccessControlEntryManager.GetAccessControlEntries());
+        CurrentResource = ResourceList.FirstOrDefault() ?? new AccessControlEntry();
     }
     
     private bool _isEditMode;
@@ -71,20 +78,22 @@ public class ResourceViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isEditMode, value);
     }
 
-    public void ChangeEditMode() { IsEditMode = !IsEditMode; }
+    public void ChangeEditMode()
+    {
+        if (IsEditMode) UpdateResources();
+        IsEditMode = !IsEditMode;
+    }
 
     public ResourceViewModel()
     {
         _resourceList = new ObservableCollection<AccessControlEntry>(
-            AccessControlEntryManager.GetAccessControlEntries() 
-            ?? new List<AccessControlEntry>()
+            AccessControlEntryManager.GetAccessControlEntries()
         );
         
         _currentResource = _resourceList.FirstOrDefault() ?? new AccessControlEntry();
         
         _userList = new ObservableCollection<AccessControlEntry>(
             AccessControlEntryManager.GetAccessControlEntries(_currentResource.Resource)
-            ?? new List<AccessControlEntry>()
         );
         
         _currentUser = _userList.FirstOrDefault() ?? new AccessControlEntry();
