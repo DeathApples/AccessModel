@@ -109,22 +109,11 @@
     
     <Style Selector="TextBlock.DocumentName">
         <Style.Setters>
+            <Setter Property="Margin" Value="0, 6, 0, -2" />
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="MaxWidth" Value="140" />
             <Setter Property="FontSize" Value="16" />
-        </Style.Setters>
-    </Style>
-    
-    <Style Selector="ListBox.Users">
-        <Style.Setters>
-            <Setter Property="Padding" Value="2" />
-            <Setter Property="Margin" Value="6" />
-            <Setter Property="ItemsPanel">
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" Margin="1" />
-                </ItemsPanelTemplate>
-            </Setter>
         </Style.Setters>
     </Style>
     
@@ -146,6 +135,18 @@
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="CornerRadius" Value="12" />
             <Setter Property="Margin" Value="1" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="ListBox.Users">
+        <Style.Setters>
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" Margin="1" />
+                </ItemsPanelTemplate>
+            </Setter>
         </Style.Setters>
     </Style>
     
@@ -171,24 +172,24 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Properties > StackPanel > StackPanel > Button:pointerover /template/ ContentPresenter">
+    <Style Selector="Button.Active:pointerover /template/ ContentPresenter">
         <Style.Setters>
             <Setter Property="TextBlock.Foreground" Value="Snow" />
             <Setter Property="Background" Value="#661f78" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Properties > StackPanel > StackPanel > Button:pressed /template/ ContentPresenter">
+    <Style Selector="Button.Active:pressed /template/ ContentPresenter">
         <Style.Setters>
             <Setter Property="TextBlock.Foreground" Value="Snow" />
             <Setter Property="Background" Value="#4c0e5b" />
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Properties > StackPanel > StackPanel > Button">
+    <Style Selector="Button.Active">
         <Style.Setters>
             <Setter Property="Height" Value="32" />
-            <Setter Property="Width" Value="140" />
+            <Setter Property="Width" Value="150" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="Cursor" Value="Hand" /> 
             <Setter Property="Foreground" Value="Snow" />
@@ -198,7 +199,7 @@
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0, 0, 10, 0" />
+            <Setter Property="Margin" Value="0, 0, 8, 0" />
         </Style.Setters>
     </Style>
     
@@ -297,10 +298,10 @@
         </Style.Setters>
     </Style>
     
-    <Style Selector="Border.Content > TextBox">
+    <Style Selector="Border.Content > Grid > TextBox">
         <Style.Setters>
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Margin" Value="6, 9, 8, 9" />
+            <Setter Property="Margin" Value="0, 3" />
             <Setter Property="AcceptsTab" Value="True" />
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="TextWrapping" Value="Wrap" />

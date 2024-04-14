@@ -52,7 +52,7 @@ public class ResourceViewModel : ViewModelBase
         UpdateResources();
     }
 
-    public void ChangeResource()
+    public void ModifyResource()
     {
         AccessControlEntryManager.ChangeAccessControlEntry(CurrentUser);
         ChangeEditMode();
@@ -68,7 +68,8 @@ public class ResourceViewModel : ViewModelBase
     {
         ResourceList.Clear();
         ResourceList.AddRange(AccessControlEntryManager.GetAccessControlEntries());
-        CurrentResource = ResourceList.FirstOrDefault() ?? new AccessControlEntry();
+        CurrentResource = ResourceList.FirstOrDefault(entry => entry.Id == CurrentResource.Id) 
+                          ?? ResourceList.FirstOrDefault() ?? new AccessControlEntry();
     }
     
     private bool _isEditMode;
