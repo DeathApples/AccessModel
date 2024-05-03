@@ -1,4 +1,7 @@
 ﻿using ReactiveUI;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using AccessModel.Models;
 using AccessModel.Services;
 
@@ -51,10 +54,41 @@ public class MainWindowViewModel : ViewModelBase
             TextChangePageButton = "НАЗАД";
         }
     }
+
+    public ICommand SignOutCommand { get; }
+    private async Task SignOut()
+    {
+        var message = $"Вы действительно хотите выполнить выход из под учётной записи \"{CurrentUser.Name}\"?";
+        var result = await Confirmation(message);
+        
+        if (result == ConfirmationResult.Yes)
+        {
+        }
+    }
+
+    private async Task<ConfirmationResult> Confirmation(string message)
+    {
+        var confirmation = new ConfirmationViewModel {
+            Message = message
+        };
+        
+        return await ShowDialog.Handle(confirmation);
+    }
+
+    private void LogHandler(string message)
+    {
+        Status = message;
+    }
+    
+    public Interaction<ConfirmationViewModel, ConfirmationResult> ShowDialog { get; }
     
     public MainWindowViewModel()
     {
-        AccessModelContext context = new();
+        ShowDialog = new Interaction<ConfirmationViewModel, ConfirmationResult>();
+        SignOutCommand = ReactiveCommand.CreateFromTask(SignOut);
+        
+        ResourceViewModel.LogEvent += LogHandler;
+        UserViewModel.LogEvent += LogHandler;
         
         UserManager.CurrentUser = 
             UserManager.GetUser("admin") 

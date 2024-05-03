@@ -49,6 +49,12 @@
         </Style.Setters>
     </Style>
     
+    <Style Selector="Border.Action > StackPanel > Button:disabled /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="Background" Value="Transparent" />
+        </Style.Setters>
+    </Style>
+    
     <Style Selector="Border.Action > StackPanel > Button">
         <Style.Setters>
             <Setter Property="Padding" Value="2" />
@@ -183,6 +189,13 @@
         <Style.Setters>
             <Setter Property="TextBlock.Foreground" Value="Snow" />
             <Setter Property="Background" Value="#4c0e5b" />
+        </Style.Setters>
+    </Style>
+    
+    <Style Selector="Button.Active:disabled /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="TextBlock.Foreground" Value="Snow" />
+            <Setter Property="Background" Value="DimGray" />
         </Style.Setters>
     </Style>
     

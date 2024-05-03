@@ -7,7 +7,7 @@ public sealed class AccessModelContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Resource> Resources { get; set; }
     public DbSet<AccessControlEntry> AccessControlEntries { get; set; }
-    private const string ConnectionString = "Host=127.0.0.1; Port=5432; Database=AccessModel; Username=root; Password=123456789;";
+    private const string ConnectionString = "Host=127.0.0.1; Port=5432; Database=AccessModel; Username=denis; Password=1526;";
     
     public AccessModelContext() { Database.EnsureCreated(); }
     

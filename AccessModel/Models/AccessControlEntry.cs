@@ -31,19 +31,20 @@ public class AccessControlEntry
     /// <summary>
     /// Пользователь системы
     /// </summary>
-    public User User { get; set; }
+    public User? User { get; set; }
     
     /// <summary>
     /// Защищаемый объект
     /// </summary>
-    public Resource Resource { get; set; }
+    public Resource? Resource { get; set; }
 
     /// <summary>
     /// Базовый конструктор класса записи контроля доступа
     /// </summary>
     public AccessControlEntry()
     {
-        User = new User();
-        Resource = new Resource();
+        IsRead = true;
+        IsWrite = true;
+        IsTakeGrant = true;
     }
 }

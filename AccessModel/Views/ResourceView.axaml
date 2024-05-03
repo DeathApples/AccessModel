@@ -12,7 +12,7 @@
     </UserControl.Styles>
     
     <Design.DataContext>
-        <vm:ResourceViewModel/>
+        <vm:ResourceViewModel />
     </Design.DataContext>
     
     <Grid>
@@ -32,7 +32,7 @@
                 <Button Command="{Binding CreateResource}">
                     <Image Source="/Assets/entry-add.png" />
                 </Button>
-                <Button Command="{Binding DeleteResource}">
+                <Button Command="{Binding DeleteResourceCommand}">
                     <Image Source="/Assets/entry-remove.png" />
                 </Button>
                 <Button>
@@ -71,7 +71,8 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Button Grid.Row="1" Content="Выдать права" Classes="Active"
-                        HorizontalAlignment="Center" Margin="0" />
+                        HorizontalAlignment="Center" Margin="0"
+                        Command="{Binding SelectUserCommand}" />
             </Grid>
         </Border>
         

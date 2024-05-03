@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui" mc:Ignorable="d"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:AccessModel.ViewModels"
+        x:Class="AccessModel.Views.UserSelectionWindow"
+        x:DataType="vm:UserSelectionViewModel"
+        d:DesignWidth="460" d:DesignHeight="180">
+    
+    <Window.Styles>
+        <StyleInclude Source="/Styles/UserSelectionStyle.axaml" />
+    </Window.Styles>
+        
+    <Design.DataContext>
+        <vm:UserSelectionViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="*, Auto, Auto">
+            
+        <TextBlock Grid.Row="0" Classes="Question"
+            Text="{Binding Message}" />
+        
+        <ComboBox Grid.Row="1" 
+                  Items="{Binding UserList}"
+                  SelectedItem="{Binding CurrentUser}"
+                  HorizontalAlignment="Center" Margin="0, 6"
+                  Background="#373737" BorderBrush="DimGray"
+                  Foreground="Snow" Width="280">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <StackPanel Grid.Row="2" Classes="Answer">
+            <Button Content="Да"
+                    CommandParameter="yes"
+                    Command="{Binding CloseCommand}" />
+            <Button Content="Отмена" Margin="0"
+                    CommandParameter="cancel"
+                    Command="{Binding CloseCommand}" />
+        </StackPanel>
+
+    </Grid>
+        
+</Window>

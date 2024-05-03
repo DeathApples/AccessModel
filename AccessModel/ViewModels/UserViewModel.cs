@@ -1,5 +1,9 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using AccessModel.Models;
 using AccessModel.Services;
 using DynamicData;
@@ -9,6 +13,8 @@ namespace AccessModel.ViewModels;
 
 public class UserViewModel : ViewModelBase
 {
+    public static event Action<string>? LogEvent;
+    
     private ObservableCollection<User> _userList;
     public ObservableCollection<User> UserList
     {
@@ -37,11 +43,17 @@ public class UserViewModel : ViewModelBase
         UpdateUsers();
     }
     
-    public void DeleteUser()
+    public ICommand DeleteUserCommand { get; }
+    private async Task DeleteUser()
     {
-        // ToDo: Добавить проверки и реализовать систему оповещений
-        UserManager.DeleteUser(CurrentUser);
-        UpdateUsers();
+        /*var message = $"Вы действительно хотите удалить \n пользователя \"{CurrentUser.Name}\"?";
+        var result = await Confirmation(message);
+        
+        if (result == ConfirmationResult.Yes)
+        {*/
+            UserManager.DeleteUser(CurrentUser);
+            UpdateUsers();
+        //}
     }
 
     private void UpdateUsers()
@@ -50,9 +62,23 @@ public class UserViewModel : ViewModelBase
         UserList.AddRange(UserManager.GetAllUsers());
         CurrentUser = UserList.FirstOrDefault() ?? new User();
     }
+    
+    private async Task<ConfirmationResult> Confirmation(string message)
+    {
+        var confirmation = new ConfirmationViewModel {
+            Message = message
+        };
+        
+        return await ConfirmationDialog.Handle(confirmation);
+    }
+    
+    public Interaction<ConfirmationViewModel, ConfirmationResult> ConfirmationDialog { get; }
 
     public UserViewModel()
     {
+        ConfirmationDialog = new Interaction<ConfirmationViewModel, ConfirmationResult>();
+        DeleteUserCommand = ReactiveCommand.CreateFromTask(DeleteUser);
+        
         _userList = new ObservableCollection<User>(
             UserManager.GetAllUsers()
         );

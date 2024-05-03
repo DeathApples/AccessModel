@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AccessModel.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace AccessModel.Services;
 
 public static class AccessControlEntryManager
 {
-    public static List<AccessControlEntry> GetAccessControlEntries()
+    public static List<AccessControlEntry> GetEntries()
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries
@@ -18,7 +19,7 @@ public static class AccessControlEntryManager
             .ToList();
     }
     
-    public static List<AccessControlEntry> GetAccessControlEntries(Resource resource)
+    public static List<AccessControlEntry> GetEntries(Resource resource)
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries
@@ -28,35 +29,29 @@ public static class AccessControlEntryManager
             .ToList();
     }
 
-    public static bool CreateAccessControlEntry()
+    public static void CreateEntry(Resource? resource, User? user)
     {
         using var db = new AccessModelContext();
-        var entry = new AccessControlEntry {
-            User = UserManager.CurrentUser!,
-            IsRead = true, IsWrite = true, IsTakeGrant = true,
-            Resource = new Resource { Name = "Unnamed", Owner = UserManager.CurrentUser!, CreateDateTime = DateTime.UtcNow }
-        };
         
-        db.AccessControlEntries.Add(entry);
-        return db.SaveChanges() > 0;
+        var entryEntity = db.AccessControlEntries.Add(new AccessControlEntry());
+        entryEntity.Entity.Resource = resource;
+        entryEntity.Entity.User = user;
+        
+        db.SaveChanges();
     }
 
-    public static bool ChangeAccessControlEntry(AccessControlEntry entry)
+    public static bool ModifyEntry(AccessControlEntry entry)
     {
         using var db = new AccessModelContext();
-        db.Entry(entry.Resource).State = EntityState.Modified;
         db.Entry(entry).State = EntityState.Modified;
         
         return db.SaveChanges() > 0;
     }
 
-    public static void DeleteAccessControlEntry()
+    public static void DeleteEntryRange(IEnumerable<AccessControlEntry> entries)
     {
-        
-    }
-    
-    public static void DeleteAccessControlEntriesForResource(Resource resource)
-    {
-        
+        using var db = new AccessModelContext();
+        db.AccessControlEntries.RemoveRange(entries);
+        db.SaveChanges();
     }
 }

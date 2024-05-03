@@ -12,64 +12,16 @@ namespace AccessModel.Services;
 public static class ResourceManager
 {
     /// <summary>
-    /// Возвращает список ресурсов, на которые есть какие-либо права у данного пользователя
-    /// </summary>
-    /// <param name="user"> Активный пользователь </param>
-    /// <returns> Список защищаемых объектов </returns>
-    public static List<Resource> GetObjects(User user)
-    {
-        var resources = new List<Resource>();
-        using var db = new AccessModelContext();
-        var list = db.AccessControlEntries?
-            .Where(entry => entry.IsRead || entry.IsWrite || entry.IsTakeGrant)
-            .Where(p=> p.User == user)
-            .ToList();
-        //return list;
-        
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Чтение содержания защищаемого объекта
-    /// </summary>
-    /// <param name="resource"> Ресурс, содержание которого было запрошено </param>
-    /// <param name="user"> Пользователь, запросивший содержание </param>
-    /// <returns> Содержание защищаемого объекта </returns>
-    public static string? ReadObject(Resource resource, User user)
-    {
-        using var db = new AccessModelContext();
-        var res = db.AccessControlEntries?.Include(p => p.Resource)
-            .FirstOrDefault(p => p.User == user && p.Resource == resource)?.Resource.Content;
-        return res;
-    }
-    
-    /// <summary>
     /// Создание защищаемого объекта
     /// </summary>
-    /// <param name="user"> Пользователь, создавший ресурс </param>
-    /// <param name="name"> Название объекта </param>
     /// <returns> Успешность выполнения операции </returns>
-    public static bool CreateObject(User user, string name = "")
+    public static void CreateObject()
     {
         using var db = new AccessModelContext();
-        var resource = new Resource
-        {
-            Name = name,
-            CreateDateTime = DateTime.Now,
-            Content = ""
-        };
-        var accessControlEntry = new AccessControlEntry
-        {
-                User = user,
-                Resource = resource,
-                //Permission = db.UsersPermissions.FirstOrDefault(p => p!.Id == 5)
-        };
-        db.Resources?.Add(resource);
-        if (db.Entry(resource).State != EntityState.Added) return false;
-        db.AccessControlEntries?.Add(accessControlEntry);
-        if (db.Entry(accessControlEntry).State != EntityState.Added) return false;
-        db.SaveChanges();
-        return true;
+        var entryEntity = db.Resources.Add(new Resource());
+
+        entryEntity.Entity.Owner = UserManager.CurrentUser!;
+        AccessControlEntryManager.CreateEntry(entryEntity.Entity, UserManager.CurrentUser);
     }
 
     /// <summary>
@@ -88,8 +40,7 @@ public static class ResourceManager
             db.Entry(resource).State = EntityState.Modified;
         }
         else return true;
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
+        return db.SaveChanges() > 0;
     }
     
     /// <summary>
@@ -108,21 +59,21 @@ public static class ResourceManager
             db.Entry(resource).State = EntityState.Modified;
         }
         else return true;
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
+        return db.SaveChanges() > 0;
     }
 
     /// <summary>
     /// Удаление защищаемого объекта
     /// </summary>
     /// <param name="resource"> Ссылка на объект, над которым выполняется операция </param>
-    /// <param name="user"> Пользователь, пытающийся выполнить данную операцию </param>
-    /// <returns> Успешность выполнения операции </returns>
-    public static bool DeleteObject(Resource resource, User user)
+    public static void DeleteObject(Resource? resource)
     {
+        if (resource == null) return;
+        
         using var db = new AccessModelContext();
-        db.Resources?.Remove(resource);
-        var countUpdate = db.SaveChanges();
-        return countUpdate > 0;
+        var entries = db.AccessControlEntries.Where(entry => entry.Resource != null && entry.Resource.Id == resource.Id);
+        AccessControlEntryManager.DeleteEntryRange(entries);
+        db.Resources.Remove(resource);
+        db.SaveChanges();
     }
 }

@@ -29,7 +29,7 @@ public class Resource
     /// <summary>
     /// Владелец объекта
     /// </summary>
-    public User Owner { get; set; }
+    public User? Owner { get; set; }
     
     /// <summary>
     /// Дата и время создания объекта
@@ -41,9 +41,8 @@ public class Resource
     /// </summary>
     public Resource()
     {
-        Name = string.Empty;
+        Name = "Unnamed";
         Content = string.Empty;
-        Owner = new User();
-        CreateDateTime = new DateTime();
+        CreateDateTime = DateTime.UtcNow;
     }
 }

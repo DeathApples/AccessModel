@@ -72,6 +72,13 @@
         </Style.Setters>
     </Style>
     
+    <Style Selector="Border.Exit > StackPanel > Button:disabled /template/ ContentPresenter">
+        <Style.Setters>
+            <Setter Property="TextBlock.Foreground" Value="Snow" />
+            <Setter Property="Background" Value="DimGray" />
+        </Style.Setters>
+    </Style>
+    
     <Style Selector="Border.Exit > StackPanel > Button">
         <Style.Setters>
             <Setter Property="Height" Value="32" />

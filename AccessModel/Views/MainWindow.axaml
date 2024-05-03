@@ -28,7 +28,7 @@
                 <Button Content="{Binding TextChangePageButton}"
                         Command="{Binding ChangePage}"
                         IsVisible="{Binding IsAdmin}" />
-                <Button Content="ВЫХОД" />
+                <Button Content="ВЫХОД" Command="{Binding SignOutCommand}" />
             </StackPanel>
         </Border>
         
