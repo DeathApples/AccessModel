@@ -30,7 +30,7 @@ public class ResourceViewModel : ViewModelBase
         set
         {
             UserList.Clear();
-            UserList.AddRange(AccessControlEntryManager.GetEntries(value.Resource));
+            UserList.AddRange(AccessControlEntryManager.GetEntries(value?.Resource ?? new Resource()));
             CurrentUser = UserList.FirstOrDefault(entry => entry.User?.Id == UserManager.CurrentUser?.Id) ?? new AccessControlEntry();
             
             this.RaiseAndSetIfChanged(ref _currentResource, value);
@@ -91,8 +91,8 @@ public class ResourceViewModel : ViewModelBase
     {
         ResourceList.Clear();
         ResourceList.AddRange(AccessControlEntryManager.GetEntries());
-        CurrentResource = ResourceList.FirstOrDefault(entry => entry.Id == CurrentResource.Id) 
-                          ?? ResourceList.FirstOrDefault() ?? new AccessControlEntry();
+        CurrentResource = ResourceList.FirstOrDefault(entry => entry.Id == CurrentResource?.Id) ??
+                          ResourceList.FirstOrDefault() ?? new AccessControlEntry();
     }
     
     private bool _isEditMode;
