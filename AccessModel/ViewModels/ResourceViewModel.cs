@@ -23,8 +23,8 @@ public class ResourceViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _resourceList, value);
     }
     
-    private AccessControlEntry _currentResource;
-    public AccessControlEntry CurrentResource
+    private AccessControlEntry? _currentResource;
+    public AccessControlEntry? CurrentResource
     {
         get => _currentResource;
         set
@@ -48,7 +48,20 @@ public class ResourceViewModel : ViewModelBase
     public AccessControlEntry CurrentUser
     {
         get => _currentUser;
-        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
+        set
+        {
+            if (!value.IsRead) ResourceContent = string.Empty;
+            else ResourceContent = value.Resource?.Content ?? string.Empty;
+            
+            this.RaiseAndSetIfChanged(ref _currentUser, value);
+        }
+    }
+
+    private string _resourceContent;
+    public string ResourceContent
+    {
+        get => _resourceContent;
+        set => this.RaiseAndSetIfChanged(ref _resourceContent, value);
     }
 
     public void CreateResource()
@@ -57,10 +70,23 @@ public class ResourceViewModel : ViewModelBase
         UpdateResources();
     }
 
-    public void ModifyResource()
+    public void ModifyEntry()
     {
+        ResourceManager.ModifyObject(CurrentUser.Resource);
         AccessControlEntryManager.ModifyEntry(CurrentUser);
         ChangeEditMode();
+    }
+    
+    public void ModifyResource()
+    {
+        if (CurrentUser is { IsRead: false, IsWrite: true, Resource: not null }) 
+            CurrentUser.Resource.Content += $"\n{ResourceContent}";
+        
+        if (CurrentUser is { IsRead: true, IsWrite: true, Resource: not null }) 
+            CurrentUser.Resource.Content = ResourceContent;
+        
+        ResourceManager.ModifyObject(CurrentUser.Resource);
+        UpdateResources();
     }
     
     public ICommand DeleteResourceCommand { get; }
@@ -71,7 +97,7 @@ public class ResourceViewModel : ViewModelBase
         
         if (result == ConfirmationResult.Yes)
         {
-            ResourceManager.DeleteObject(CurrentResource.Resource);
+            ResourceManager.DeleteObject(CurrentResource?.Resource);
             UpdateResources();
         }
     }
@@ -120,9 +146,9 @@ public class ResourceViewModel : ViewModelBase
     private async Task<User?> UserSelection()
     {
         var selection = new UserSelectionViewModel {
-            /*UserList = new ObservableCollection<User>(
-                UserManager.GetAllUsers().Where(user => !UserList.ToList().Exists(entry => entry.User == user))
-            ),*/
+            UserList = new ObservableCollection<User>(
+                UserManager.GetAllUsers().Where(user => !UserList.ToList().Exists(entry => entry.User?.Id == user.Id))
+            )
         };
         
         return await UserSelectionDialog.Handle(selection);
@@ -149,5 +175,7 @@ public class ResourceViewModel : ViewModelBase
         );
         
         _currentUser = _userList.FirstOrDefault() ?? new AccessControlEntry();
+        _resourceContent = string.Empty;
+        CurrentUser = _currentUser;
     }
 }

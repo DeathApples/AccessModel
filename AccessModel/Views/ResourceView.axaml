@@ -126,7 +126,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Сохранить" Classes="Active"
                                     IsVisible="{Binding IsEditMode}"
-                                    Command="{Binding ModifyResource}" />
+                                    Command="{Binding ModifyEntry}" />
                             <Button Content="Отмена" Classes="Active"
                                     Margin="8, 0, 0, 0"
                                     IsVisible="{Binding IsEditMode}"
@@ -141,9 +141,8 @@
                 <Border Grid.Row="2" Classes="Content">
                     <Grid RowDefinitions="*, Auto" Margin="6">
                         <TextBox Grid.Row="0"
-                                 IsVisible="{Binding CurrentUser.IsRead}"
                                  IsReadOnly="{Binding !CurrentUser.IsWrite}" 
-                                 Text="{Binding CurrentUser.Resource.Content}" />
+                                 Text="{Binding ResourceContent}" />
                         <Button Grid.Row="1"
                                 Content="Сохранить" Classes="Active" 
                                 HorizontalAlignment="Center" Margin="0"

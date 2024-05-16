@@ -19,7 +19,7 @@ public static class AccessControlEntryManager
             .ToList();
     }
     
-    public static List<AccessControlEntry> GetEntries(Resource resource)
+    public static List<AccessControlEntry> GetEntries(Resource? resource)
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries
@@ -46,12 +46,5 @@ public static class AccessControlEntryManager
         db.Entry(entry).State = EntityState.Modified;
         
         return db.SaveChanges() > 0;
-    }
-
-    public static void DeleteEntryRange(IEnumerable<AccessControlEntry> entries)
-    {
-        using var db = new AccessModelContext();
-        db.AccessControlEntries.RemoveRange(entries);
-        db.SaveChanges();
     }
 }
