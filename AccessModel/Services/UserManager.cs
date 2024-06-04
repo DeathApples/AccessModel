@@ -30,7 +30,7 @@ public static class UserManager
     /// </summary>
     /// <param name="login"> Имя пользователя </param>
     /// <returns> Пользователь системы </returns>
-    public static User? GetUser(string login)
+    public static User? GetUser(string? login)
     {   
         using var db = new AccessModelContext();
         return db.Users.FirstOrDefault(p => p.Login == login);
@@ -42,7 +42,7 @@ public static class UserManager
     /// <param name="user"> Ссылка на пользователя </param>
     /// <param name="password"> Пароль </param>
     /// <returns> Успешность проверки </returns>
-    public static bool PasswordVerification(User user, string password)
+    public static bool PasswordVerification(User user, string? password)
     {
         using var db = new AccessModelContext();
         var hash = db.Users.FirstOrDefault(p=> p.Login == user.Login)?.Password ?? string.Empty;

@@ -1,19 +1,12 @@
+using System;
 using ReactiveUI;
 using System.Reactive;
-using AccessModel.Models;
 using AccessModel.Services;
 
 namespace AccessModel.ViewModels;
 
 public class AuthenticationViewModel : ViewModelBase
 {
-    private string? _name;
-    public string? Name
-    {
-        get => _name;
-        set => this.RaiseAndSetIfChanged(ref _name, value);
-    }
-    
     private string? _login;
     public string? Login
     {
@@ -27,18 +20,48 @@ public class AuthenticationViewModel : ViewModelBase
         get => _password;
         set => this.RaiseAndSetIfChanged(ref _password, value);
     }
+
+    private bool? _isError = false;
+    public bool? IsError
+    {
+        get => _isError;
+        private set => this.RaiseAndSetIfChanged(ref _isError, value);
+    }
     
     public ReactiveCommand<Unit, Unit> SignInCommand { get; }
     private void SignIn()
     {
+        var user = UserManager.GetUser(Login);
+        if (user is not null)
+        {
+            if (UserManager.PasswordVerification(user, Password))
+            {
+                IsError = false;
+                Login = string.Empty;
+                Password = string.Empty;
+                UserManager.CurrentUser = user;
+                CloseCommand.Execute().Subscribe();
+            }
+            else
+            {
+                IsError = true;
+                Password = string.Empty;
+            }
+        }
+        else
+        {
+            IsError = true;
+            Password = string.Empty;
+        }
     }
+    
+    public static ReactiveCommand<Unit, object> CloseCommand { get; }
 
-    public AuthenticationViewModel()
-    {
+    public AuthenticationViewModel() {
         SignInCommand = ReactiveCommand.Create(SignIn);
-        
-        UserManager.CurrentUser =
-            UserManager.GetUser("admin") 
-            ?? UserManager.CreateUser("Администратор", "admin", "A123!");
+    }
+    
+    static AuthenticationViewModel() {
+        CloseCommand = ReactiveCommand.Create(() => new object());
     }
 }

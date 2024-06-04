@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Reactive;
+using ReactiveUI;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -32,8 +34,8 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _status, value);
     }
     
-    private User _currentUser;
-    public User CurrentUser 
+    private User? _currentUser;
+    public User? CurrentUser 
     {
         get => _currentUser; 
         set => this.RaiseAndSetIfChanged(ref _currentUser, value); 
@@ -58,11 +60,12 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand SignOutCommand { get; }
     private async Task SignOut()
     {
-        var message = $"Вы действительно хотите выполнить выход из под учётной записи \"{CurrentUser.Name}\"?";
+        var message = $"Вы действительно хотите выполнить выход из под учётной записи \"{CurrentUser?.Name}\"?";
         var result = await Confirmation(message);
         
         if (result == ConfirmationResult.Yes)
         {
+            CloseCommand.Execute().Subscribe();
         }
     }
 
@@ -81,6 +84,7 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     public Interaction<ConfirmationViewModel, ConfirmationResult> ShowDialog { get; }
+    public static ReactiveCommand<Unit, object> CloseCommand { get; }
     
     public MainWindowViewModel()
     {
@@ -89,10 +93,6 @@ public class MainWindowViewModel : ViewModelBase
         
         ResourceViewModel.LogEvent += LogHandler;
         UserViewModel.LogEvent += LogHandler;
-        
-        UserManager.CurrentUser = 
-            UserManager.GetUser("admin") 
-            ?? UserManager.CreateUser("Администратор", "admin", "A123!");
 
         _currentUser = UserManager.CurrentUser;
         
@@ -102,5 +102,10 @@ public class MainWindowViewModel : ViewModelBase
         };
         
         _currentPage = _pages[0];
+    }
+
+    static MainWindowViewModel()
+    {
+        CloseCommand = ReactiveCommand.Create(() => new object());
     }
 }
