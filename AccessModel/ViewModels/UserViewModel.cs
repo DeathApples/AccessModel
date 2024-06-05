@@ -1,13 +1,13 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
+using ReactiveUI;
+using DynamicData;
 using AccessModel.Models;
 using AccessModel.Services;
-using DynamicData;
-using ReactiveUI;
 
 namespace AccessModel.ViewModels;
 
@@ -31,29 +31,46 @@ public class UserViewModel : ViewModelBase
     
     public void CreateUser()
     {
-        // ToDo: Добавить проверки и реализовать систему оповещений
-        UserManager.CreateUser();
-        UpdateUsers();
+        if (UserManager.CreateUser()) {
+            LogEvent?.Invoke("Создан новый пользователь");
+            UpdateUsers();
+        } else {
+            LogEvent?.Invoke("Ошибка создания пользователя: что-то пошло не так...");
+        }
     }
     
     public void ChangeUser()
     {
-        // ToDo: Добавить проверки и реализовать систему оповещений
-        UserManager.ChangeUser(CurrentUser);
-        UpdateUsers();
+        if (UserManager.GetUser(CurrentUser.Id) is not null) {
+            if (UserManager.ChangeUser(CurrentUser)) {
+                LogEvent?.Invoke("Информация о пользователе была обновлена");
+                UpdateUsers();
+            } else {
+                LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
+            }
+        } else {
+            LogEvent?.Invoke($"Ошибка обновления информации о пользователе: пользователь не выбран или выбранный пользователь не найден");
+        }
     }
     
-    public ICommand DeleteUserCommand { get; }
+    public ReactiveCommand<Unit, Unit> DeleteUserCommand { get; }
     private async Task DeleteUser()
     {
-        /*var message = $"Вы действительно хотите удалить \n пользователя \"{CurrentUser.Name}\"?";
+        var message = $"Вы действительно хотите удалить \n пользователя \"{CurrentUser.Name}\"?";
         var result = await Confirmation(message);
         
-        if (result == ConfirmationResult.Yes)
-        {*/
-            UserManager.DeleteUser(CurrentUser);
-            UpdateUsers();
-        //}
+        if (result == ConfirmationResult.Yes) {
+            if (!CurrentUser.IsAdmin) {
+                if (UserManager.DeleteUser(CurrentUser)) {
+                    LogEvent?.Invoke("Пользователь был удалён");
+                    UpdateUsers();
+                } else {
+                    LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
+                }
+            } else {
+                LogEvent?.Invoke($"Ошибка удаления пользователя: невозможно удалить учётную запись с правами Администратора Системы");
+            }
+        }
     }
 
     private void UpdateUsers()

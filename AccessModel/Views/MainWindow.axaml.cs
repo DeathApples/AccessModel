@@ -1,10 +1,10 @@
 using System;
-using ReactiveUI;
-using Avalonia.ReactiveUI;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+using ReactiveUI;
 using AccessModel.Models;
 using AccessModel.ViewModels;
-using Avalonia.Controls;
 
 namespace AccessModel.Views;
 

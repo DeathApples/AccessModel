@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
-using AccessModel.Models;
 using Microsoft.EntityFrameworkCore;
+using AccessModel.Models;
 
 namespace AccessModel.Services;
 
@@ -23,6 +23,17 @@ public static class UserManager
     {
         using var db = new AccessModelContext();
         return db.Users.ToList();
+    }
+    
+    /// <summary>
+    /// Возвращает пользователя по заданному имени
+    /// </summary>
+    /// <param name="id"> Идентификатор пользователя </param>
+    /// <returns></returns>
+    public static User? GetUser(long id)
+    {   
+        using var db = new AccessModelContext();
+        return db.Users.FirstOrDefault(p => p.Id == id);
     }
     
     /// <summary>
@@ -89,8 +100,6 @@ public static class UserManager
     /// <returns> Успешность выполнения операции </returns>
     public static bool ChangeUser(User user)
     {
-        if (GetUser(user.Login) != null) return false;
-        
         using var db = new AccessModelContext();
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         db.Entry(user).State = EntityState.Modified;
@@ -106,7 +115,12 @@ public static class UserManager
     public static bool DeleteUser(User user)
     {
         using var db = new AccessModelContext();
+        var resources = db.Resources.Where(resource => resource.Owner != null && resource.Owner.Id == user.Id);
+        var entries = db.AccessControlEntries.Where(entry => entry.User == user);
+        db.AccessControlEntries.RemoveRange(entries);
+        db.Resources.RemoveRange(resources);
         db.Users.Remove(user);
+        
         return db.SaveChanges() > 0;
     }
 }

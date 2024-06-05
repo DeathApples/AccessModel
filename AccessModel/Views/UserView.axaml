@@ -12,7 +12,7 @@
     </UserControl.Styles>
     
     <Design.DataContext>
-        <vm:UserViewModel/>
+        <vm:UserViewModel />
     </Design.DataContext>
     
     <Grid RowDefinitions="*, Auto" Classes="User">

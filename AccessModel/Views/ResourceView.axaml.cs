@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using AccessModel.Models;
-using AccessModel.ViewModels;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using Avalonia.Markup.Xaml;
+using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
+using AccessModel.Models;
+using AccessModel.ViewModels;
 
 namespace AccessModel.Views;
 
@@ -41,7 +41,7 @@ public partial class ResourceView : UserControl
     
     private async Task DoShowDialogAsync(InteractionContext<UserSelectionViewModel, User?> interaction)
     {
-        var dialog = new UserSelectionWindow() {
+        var dialog = new UserSelectionWindow {
             DataContext = interaction.Input
         };
         

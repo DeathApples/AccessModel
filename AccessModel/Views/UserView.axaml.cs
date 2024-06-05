@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
-using AccessModel.Models;
-using AccessModel.ViewModels;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
+using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
+using AccessModel.Models;
+using AccessModel.ViewModels;
 
 namespace AccessModel.Views;
 
@@ -20,8 +19,7 @@ public partial class UserView : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
-        var window = (ReactiveWindow<MainWindowViewModel>)(Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow!;
-        window.WhenActivated(action => action((DataContext as UserViewModel)!.ConfirmationDialog.RegisterHandler(DoShowDialogAsync)));
+        AttachedToVisualTree += (_, _) => { (DataContext as UserViewModel)!.ConfirmationDialog.RegisterHandler(DoShowDialogAsync); };
     }
     
     private async Task DoShowDialogAsync(InteractionContext<ConfirmationViewModel, ConfirmationResult> interaction)

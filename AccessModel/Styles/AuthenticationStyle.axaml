@@ -42,7 +42,7 @@
     
     <Style Selector="TextBlock.Authentication">
         <Style.Setters>
-            <Setter Property="Margin" Value="12, 48, 0, 2" />
+            <Setter Property="Margin" Value="12, 48, 0, 4" />
             <Setter Property="Foreground" Value="Snow" />
         </Style.Setters>
     </Style>

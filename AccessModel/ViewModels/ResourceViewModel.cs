@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using AccessModel.Models;
 using AccessModel.Services;
 using DynamicData;
@@ -89,7 +89,7 @@ public class ResourceViewModel : ViewModelBase
         UpdateResources();
     }
     
-    public ICommand DeleteResourceCommand { get; }
+    public ReactiveCommand<Unit, Unit> DeleteResourceCommand { get; }
     private async Task DeleteResource()
     {
         var message = $"Вы действительно хотите удалить \n документ \"{CurrentUser.Resource?.Name}\"?";
@@ -102,7 +102,7 @@ public class ResourceViewModel : ViewModelBase
         }
     }
     
-    public ICommand SelectUserCommand { get; }
+    public ReactiveCommand<Unit, Unit> SelectUserCommand { get; }
     private async Task SelectUser()
     {
         var result = await UserSelection();

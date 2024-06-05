@@ -27,7 +27,7 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _textChangePageButton, value);
     }
     
-    private string _status = "Успешно";
+    private string _status = "Успешно выполнен вход";
     public string Status
     {
         get => _status;
@@ -45,13 +45,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ChangePage()
     {
-        if (CurrentPage is UserViewModel)
-        {
+        if (CurrentPage is UserViewModel) {
             CurrentPage = _pages[0];
             TextChangePageButton = "ПОЛЬЗОВАТЕЛИ";
-        }
-        else
-        {
+        } else {
             CurrentPage = _pages[1];
             TextChangePageButton = "НАЗАД";
         }
@@ -63,8 +60,7 @@ public class MainWindowViewModel : ViewModelBase
         var message = $"Вы действительно хотите выполнить выход из под учётной записи \"{CurrentUser?.Name}\"?";
         var result = await Confirmation(message);
         
-        if (result == ConfirmationResult.Yes)
-        {
+        if (result == ConfirmationResult.Yes) {
             CloseCommand.Execute().Subscribe();
         }
     }
