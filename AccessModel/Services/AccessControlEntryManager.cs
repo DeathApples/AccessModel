@@ -22,8 +22,9 @@ public static class AccessControlEntryManager
     {
         using var db = new AccessModelContext();
         return db.AccessControlEntries
-            .Include(entry => entry.Resource)
             .Include(entry => entry.User)
+            .Include(entry => entry.Resource)
+            .Include(entry => entry.Resource!.Owner)
             .Where(entry => entry.User == UserManager.CurrentUser)
             .OrderBy(entry => entry.Resource!.Name)
             .ToList();
@@ -51,11 +52,17 @@ public static class AccessControlEntryManager
         db.SaveChanges();
     }
 
-    public static bool ModifyEntry(AccessControlEntry entry)
+    public static void ModifyEntry(AccessControlEntry entry)
     {
         using var db = new AccessModelContext();
         db.Entry(entry).State = EntityState.Modified;
-        
-        return db.SaveChanges() > 0;
+        db.SaveChanges();
+    }
+    
+    public static void DeleteEntry(AccessControlEntry entry)
+    {
+        using var db = new AccessModelContext();
+        db.AccessControlEntries.Remove(entry);
+        db.SaveChanges();
     }
 }

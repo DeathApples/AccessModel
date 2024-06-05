@@ -39,11 +39,26 @@ public static class ResourceManager
     /// Изменение содержание объекта
     /// </summary>
     /// <param name="resource"> Ссылка на защищаемый объект </param>
-    public static void ModifyObject(Resource? resource)
+    public static void ModifyObject(Resource resource)
     {
-        if (resource == null) return;
-        
         using var db = new AccessModelContext();
+        db.Entry(resource).State = EntityState.Modified;
+        db.SaveChanges();
+    }
+    
+    public static void ChangeOwnerObject(Resource resource, User user)
+    {
+        using var db = new AccessModelContext();
+
+        var entry = db.AccessControlEntries.FirstOrDefault(entry => 
+            entry.Resource!.Id == resource.Id && entry.Resource!.Owner!.Id == user.Id);
+
+        if (entry is null) {
+            AccessControlEntryManager.CreateEntry(resource, user);
+        } else {
+            AccessControlEntryManager.ModifyEntry(entry);
+        }
+        
         db.Entry(resource).State = EntityState.Modified;
         db.SaveChanges();
     }

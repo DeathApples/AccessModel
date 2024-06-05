@@ -63,7 +63,7 @@ public class ResourceViewModel : ViewModelBase
 
     public void CreateResource()
     {
-        LogEvent?.Invoke("Создан новый ресурс");
+        LogEvent?.Invoke("Создан новый документ");
         ResourceManager.CreateObject();
         UpdateResources();
     }
@@ -83,9 +83,16 @@ public class ResourceViewModel : ViewModelBase
             return;
         }
         
-        LogEvent?.Invoke("Запись контроля доступа успешно изменена");
         AccessControlEntryManager.ModifyEntry(CurrentUser);
-        ResourceManager.ModifyObject(CurrentUser.Resource);
+        
+        if (CurrentUser is { IsRead: false, IsWrite: false, IsTakeGrant: false }) {
+            LogEvent?.Invoke("Запись контроля доступа успешно удалена");
+            AccessControlEntryManager.DeleteEntry(CurrentUser);
+        } else {
+            LogEvent?.Invoke("Запись контроля доступа успешно изменена");
+            ResourceManager.ModifyObject(CurrentUser.Resource);
+        }
+        
         UpdateResources();
         ChangeEditMode();
     }
@@ -102,30 +109,64 @@ public class ResourceViewModel : ViewModelBase
         if (oldResource?.Name == CurrentResource?.Resource?.Name &&
             oldResource?.Content == CurrentResource?.Resource?.Content) return;
         
-        ResourceManager.ModifyObject(CurrentResource?.Resource);
-        LogEvent?.Invoke("Объект успешно изменён");
+        ResourceManager.ModifyObject(CurrentResource?.Resource!);
+        LogEvent?.Invoke("Документ успешно изменён");
     }
     
     public ReactiveCommand<Unit, Unit> DeleteResourceCommand { get; }
     private async Task DeleteResource()
     {
+        if (CurrentResource?.Resource?.Owner?.Id != UserManager.CurrentUser?.Id) {
+            LogEvent?.Invoke("Ошибка удаления документа: недостаточно прав");
+            return;
+        }
+        
         var message = $"Вы действительно хотите удалить \n документ \"{CurrentUser.Resource?.Name}\"?";
         var result = await Confirmation(message);
         
         if (result == ConfirmationResult.Yes)
         {
             ResourceManager.DeleteObject(CurrentResource?.Resource);
+            LogEvent?.Invoke("Документ успешно удалён");
             UpdateResources();
         }
     }
     
-    public ReactiveCommand<Unit, Unit> SelectUserCommand { get; }
-    private async Task SelectUser()
+    public ReactiveCommand<Unit, Unit> GrantAccessCommand { get; }
+    private async Task GrantAccess()
     {
-        var result = await UserSelection();
-        if (result != null && UserList.ToList().Exists(entry => entry.User?.Id != result.Id))
-        {
+        if (CurrentResource?.IsTakeGrant is not null && CurrentResource.IsTakeGrant) {
+            LogEvent?.Invoke("Ошибка предоставления прав: недостаточно прав");
+            return;
+        }
+        
+        var result = await UserSelection(new ObservableCollection<User>(
+            UserManager.GetAllUsers().Where(user => !UserList.ToList().Exists(entry => entry.User?.Id == user.Id))
+        ));
+        
+        if (result is not null) {
             AccessControlEntryManager.CreateEntry(CurrentUser.Resource, result);
+            LogEvent?.Invoke("Добавлена новая запись контроля доступа");
+            UpdateResources();
+        }
+    }
+    
+    public ReactiveCommand<Unit, Unit> ChangeOwnerCommand { get; }
+    private async Task ChangeOwner()
+    {
+        if (CurrentResource?.Resource?.Owner?.Id != UserManager.CurrentUser?.Id) {
+            LogEvent?.Invoke("Ошибка смены владельца: недостаточно прав");
+            return;
+        }
+        
+        var result = await UserSelection(new ObservableCollection<User>(
+            UserManager.GetAllUsers().Where(user => user.Id != UserManager.CurrentUser?.Id)
+        ));
+        
+        if (result is not null && CurrentResource?.Resource is not null) {
+            CurrentResource.Resource.Owner = result;
+            ResourceManager.ChangeOwnerObject(CurrentResource.Resource, result);
+            LogEvent?.Invoke("У выбранного документа успешно сменился владелец");
             UpdateResources();
         }
     }
@@ -159,12 +200,10 @@ public class ResourceViewModel : ViewModelBase
         return await ConfirmationDialog.Handle(confirmation);
     }
     
-    private async Task<User?> UserSelection()
+    private async Task<User?> UserSelection(ObservableCollection<User> users)
     {
         var selection = new UserSelectionViewModel {
-            UserList = new ObservableCollection<User>(
-                UserManager.GetAllUsers().Where(user => !UserList.ToList().Exists(entry => entry.User?.Id == user.Id))
-            )
+            UserList = users
         };
         
         return await UserSelectionDialog.Handle(selection);
@@ -178,7 +217,8 @@ public class ResourceViewModel : ViewModelBase
         ConfirmationDialog = new Interaction<ConfirmationViewModel, ConfirmationResult>();
         UserSelectionDialog = new Interaction<UserSelectionViewModel, User?>();
         DeleteResourceCommand = ReactiveCommand.CreateFromTask(DeleteResource);
-        SelectUserCommand = ReactiveCommand.CreateFromTask(SelectUser);
+        GrantAccessCommand = ReactiveCommand.CreateFromTask(GrantAccess);
+        ChangeOwnerCommand = ReactiveCommand.CreateFromTask(ChangeOwner);
         
         _resourceList = new ObservableCollection<AccessControlEntry>(
             AccessControlEntryManager.GetEntries()

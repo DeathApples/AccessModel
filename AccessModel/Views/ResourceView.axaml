@@ -35,7 +35,7 @@
                 <Button Command="{Binding DeleteResourceCommand}">
                     <Image Source="/Assets/entry-remove.png" />
                 </Button>
-                <Button>
+                <Button Command="{Binding ChangeOwnerCommand}">
                     <Image Source="/Assets/entry-sec.png" />
                 </Button>
             </StackPanel>
@@ -72,7 +72,7 @@
                 </ListBox>
                 <Button Grid.Row="1" Content="Выдать права" Classes="Active"
                         HorizontalAlignment="Center" Margin="0"
-                        Command="{Binding SelectUserCommand}" />
+                        Command="{Binding GrantAccessCommand}" />
             </Grid>
         </Border>
         
@@ -117,11 +117,11 @@
                         
                         <TextBlock Text="Владелец" />
                         <TextBlock Classes="PropertyValue" MinHeight="41"
-                                   Text="{Binding CurrentUser.Resource.Owner.Name}" />
+                                   Text="{Binding CurrentResource.Resource.Owner.Name}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentUser.Resource.CreateDateTime}" />
+                                   Text="{Binding CurrentResource.Resource.CreateDateTime}" />
                         
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Сохранить" Classes="Active"
