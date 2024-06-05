@@ -60,9 +60,8 @@ public class AuthenticationViewModel : ViewModelBase
     public AuthenticationViewModel() {
         SignInCommand = ReactiveCommand.Create(SignIn);
 
-        if (UserManager.GetUser("admin") is null) {
+        if (UserManager.GetUser(1) is null) 
             UserManager.CreateUser("Администратор", "admin", "A123!");
-        }
     }
     
     static AuthenticationViewModel() {
