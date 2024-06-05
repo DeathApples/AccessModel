@@ -12,6 +12,17 @@ namespace AccessModel.Services;
 public static class ResourceManager
 {
     /// <summary>
+    /// Получение объекта по его идентификатор
+    /// </summary>
+    /// <param name="id"> идентификатор объекта </param>
+    /// <returns></returns>
+    public static Resource? GetObject(long id)
+    {
+        using var db = new AccessModelContext();
+        return db.Resources.FirstOrDefault(resource => resource.Id == id);
+    }
+    
+    /// <summary>
     /// Создание защищаемого объекта
     /// </summary>
     /// <returns> Успешность выполнения операции </returns>

@@ -9,6 +9,15 @@ namespace AccessModel.Services;
 
 public static class AccessControlEntryManager
 {
+    public static AccessControlEntry? GetEntry(long id)
+    {
+        using var db = new AccessModelContext();
+        return db.AccessControlEntries
+            .Include(entry => entry.Resource)
+            .Include(entry => entry.User)
+            .FirstOrDefault(entry => entry.Id == id);
+    }
+    
     public static List<AccessControlEntry> GetEntries()
     {
         using var db = new AccessModelContext();
@@ -16,6 +25,7 @@ public static class AccessControlEntryManager
             .Include(entry => entry.Resource)
             .Include(entry => entry.User)
             .Where(entry => entry.User == UserManager.CurrentUser)
+            .OrderBy(entry => entry.Resource!.Name)
             .ToList();
     }
     
@@ -26,6 +36,7 @@ public static class AccessControlEntryManager
             .Include(entry => entry.Resource)
             .Include(entry => entry.User)
             .Where(entry => entry.Resource == resource)
+            .OrderBy(entry => entry.User!.Name)
             .ToList();
     }
 

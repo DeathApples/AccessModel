@@ -33,6 +33,9 @@ public class ResourceViewModel : ViewModelBase
             UserList.AddRange(AccessControlEntryManager.GetEntries(value?.Resource ?? new Resource()));
             CurrentUser = UserList.FirstOrDefault(entry => entry.User?.Id == UserManager.CurrentUser?.Id) ?? new AccessControlEntry();
             
+            if (value is null || !value.IsRead) ResourceContent = string.Empty;
+            else ResourceContent = value.Resource?.Content ?? string.Empty;
+            
             this.RaiseAndSetIfChanged(ref _currentResource, value);
         }
     }
@@ -48,13 +51,7 @@ public class ResourceViewModel : ViewModelBase
     public AccessControlEntry CurrentUser
     {
         get => _currentUser;
-        set
-        {
-            if (!value.IsRead) ResourceContent = string.Empty;
-            else ResourceContent = value.Resource?.Content ?? string.Empty;
-            
-            this.RaiseAndSetIfChanged(ref _currentUser, value);
-        }
+        set => this.RaiseAndSetIfChanged(ref _currentUser, value);
     }
 
     private string _resourceContent;
@@ -66,27 +63,47 @@ public class ResourceViewModel : ViewModelBase
 
     public void CreateResource()
     {
+        LogEvent?.Invoke("Создан новый ресурс");
         ResourceManager.CreateObject();
         UpdateResources();
     }
 
     public void ModifyEntry()
     {
-        ResourceManager.ModifyObject(CurrentUser.Resource);
+        var oldEntry = AccessControlEntryManager.GetEntry(CurrentUser.Id);
+        if (CurrentResource is null || oldEntry is null) return;
+        
+        if ((oldEntry.IsRead != CurrentUser.IsRead || oldEntry.IsWrite != CurrentUser.IsWrite) && !CurrentResource.IsTakeGrant) {
+            LogEvent?.Invoke("Ошибка изменения записи контроля доступа: недостаточно прав");
+            return;
+        }
+        
+        if (oldEntry.IsTakeGrant != CurrentUser.IsTakeGrant && UserManager.CurrentUser?.Id != CurrentResource?.Resource?.Owner?.Id) {
+            LogEvent?.Invoke("Ошибка изменения записи контроля доступа: недостаточно прав");
+            return;
+        }
+        
+        LogEvent?.Invoke("Запись контроля доступа успешно изменена");
         AccessControlEntryManager.ModifyEntry(CurrentUser);
+        ResourceManager.ModifyObject(CurrentUser.Resource);
+        UpdateResources();
         ChangeEditMode();
     }
     
     public void ModifyResource()
     {
-        if (CurrentUser is { IsRead: false, IsWrite: true, Resource: not null }) 
-            CurrentUser.Resource.Content += $"\n{ResourceContent}";
+        if (CurrentResource is { IsRead: false, IsWrite: true, Resource: not null }) 
+            CurrentResource.Resource.Content += $"\n{ResourceContent}";
         
-        if (CurrentUser is { IsRead: true, IsWrite: true, Resource: not null }) 
-            CurrentUser.Resource.Content = ResourceContent;
+        if (CurrentResource is { IsRead: true, IsWrite: true, Resource: not null }) 
+            CurrentResource.Resource.Content = ResourceContent;
+
+        var oldResource = ResourceManager.GetObject(CurrentUser.Resource?.Id ?? 0);
+        if (oldResource?.Name == CurrentResource?.Resource?.Name &&
+            oldResource?.Content == CurrentResource?.Resource?.Content) return;
         
-        ResourceManager.ModifyObject(CurrentUser.Resource);
-        UpdateResources();
+        ResourceManager.ModifyObject(CurrentResource?.Resource);
+        LogEvent?.Invoke("Объект успешно изменён");
     }
     
     public ReactiveCommand<Unit, Unit> DeleteResourceCommand { get; }
@@ -117,8 +134,7 @@ public class ResourceViewModel : ViewModelBase
     {
         ResourceList.Clear();
         ResourceList.AddRange(AccessControlEntryManager.GetEntries());
-        CurrentResource = ResourceList.FirstOrDefault(entry => entry.Id == CurrentResource?.Id) ??
-                          ResourceList.FirstOrDefault() ?? new AccessControlEntry();
+        CurrentResource = ResourceList.FirstOrDefault() ?? new AccessControlEntry();
     }
     
     private bool _isEditMode;

@@ -22,7 +22,7 @@ public static class UserManager
     public static List<User> GetAllUsers()
     {
         using var db = new AccessModelContext();
-        return db.Users.ToList();
+        return db.Users.OrderBy(user => user.Id).ToList();
     }
     
     /// <summary>

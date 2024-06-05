@@ -43,7 +43,7 @@ public class UserViewModel : ViewModelBase
     {
         if (UserManager.GetUser(CurrentUser.Id) is not null) {
             if (UserManager.ChangeUser(CurrentUser)) {
-                LogEvent?.Invoke("Информация о пользователе была обновлена");
+                LogEvent?.Invoke("Информация о пользователе обновлена");
                 UpdateUsers();
             } else {
                 LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
@@ -62,7 +62,7 @@ public class UserViewModel : ViewModelBase
         if (result == ConfirmationResult.Yes) {
             if (!CurrentUser.IsAdmin) {
                 if (UserManager.DeleteUser(CurrentUser)) {
-                    LogEvent?.Invoke("Пользователь был удалён");
+                    LogEvent?.Invoke("Пользователь удалён");
                     UpdateUsers();
                 } else {
                     LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
