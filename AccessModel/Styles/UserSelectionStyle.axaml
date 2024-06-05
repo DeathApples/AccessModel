@@ -72,5 +72,41 @@
             <Setter Property="Margin" Value="0, 0, 8, 0" />
         </Style.Setters>
     </Style>
-        
+    
+    <Style Selector="ComboBoxItem > TextBlock">
+        <Setter Property="Foreground" Value="Snow"/>
+    </Style>
+    
+    <Style Selector="ComboBox:pointerover /template/ Path#DropDownGlyph">
+        <Setter Property="Fill" Value="Snow" />
+    </Style>
+    
+    <Style Selector="ComboBox /template/ Path#DropDownGlyph">
+        <Setter Property="Fill" Value="DimGray" />
+    </Style>
+    
+    <Style Selector="ComboBoxItem:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#484848"/>
+    </Style>
+    
+    <Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background" Value="#292929"/>
+    </Style>
+    
+    <Style Selector="ComboBox:pointerover /template/ Border#Background">
+        <Setter Property="Background" Value="DimGray"/>
+        <Setter Property="BorderBrush" Value="Snow" />
+    </Style>
+    
+    <Style Selector="ComboBox">
+        <Style.Setters>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="DimGray" />
+            <Setter Property="Background" Value="#373737" />
+            <Setter Property="Foreground" Value="Snow" />
+            <Setter Property="Margin" Value="0, 6" />
+            <Setter Property="Width" Value="280" />
+        </Style.Setters>
+    </Style>
+    
 </Styles>
