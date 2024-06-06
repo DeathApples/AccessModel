@@ -31,23 +31,17 @@ public class UserViewModel : ViewModelBase
     
     public void CreateUser()
     {
-        if (UserManager.CreateUser()) {
-            LogEvent?.Invoke("Создан новый пользователь");
-            UpdateUsers();
-        } else {
-            LogEvent?.Invoke("Ошибка создания пользователя: что-то пошло не так...");
-        }
+        LogEvent?.Invoke("Создан новый пользователь");
+        UserManager.CreateUser();
+        UpdateUsers();
     }
     
     public void ChangeUser()
     {
         if (UserManager.GetUser(CurrentUser.Id) is not null) {
-            if (UserManager.ChangeUser(CurrentUser)) {
-                LogEvent?.Invoke("Информация о пользователе обновлена");
-                UpdateUsers();
-            } else {
-                LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
-            }
+            LogEvent?.Invoke("Информация о пользователе обновлена");
+            UserManager.ModifyUser(CurrentUser);
+            UpdateUsers();
         } else {
             LogEvent?.Invoke($"Ошибка обновления информации о пользователе: пользователь не выбран или выбранный пользователь не найден");
         }
@@ -61,12 +55,9 @@ public class UserViewModel : ViewModelBase
         
         if (result == ConfirmationResult.Yes) {
             if (!CurrentUser.IsAdmin) {
-                if (UserManager.DeleteUser(CurrentUser)) {
-                    LogEvent?.Invoke("Пользователь удалён");
-                    UpdateUsers();
-                } else {
-                    LogEvent?.Invoke("Ошибка обновления информации о пользователе: что-то пошло не так...");
-                }
+                LogEvent?.Invoke("Пользователь удалён");
+                UserManager.DeleteUser(CurrentUser);
+                UpdateUsers();
             } else {
                 LogEvent?.Invoke($"Ошибка удаления пользователя: невозможно удалить учётную запись с правами Администратора Системы");
             }

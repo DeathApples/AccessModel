@@ -26,30 +26,27 @@
         
         <Border Grid.Column="2" Classes="Action">
             <StackPanel>
-                <Button Command="{Binding ChangeEditMode}">
-                    <Image Source="/Assets/entry-edit.png" />
-                </Button>
                 <Button Command="{Binding CreateResource}">
                     <Image Source="/Assets/entry-add.png" />
                 </Button>
+                <Button Command="{Binding ChangeEditMode}">
+                    <Image Source="/Assets/entry-edit.png" />
+                </Button>
                 <Button Command="{Binding DeleteResourceCommand}">
                     <Image Source="/Assets/entry-remove.png" />
-                </Button>
-                <Button Command="{Binding ChangeOwnerCommand}">
-                    <Image Source="/Assets/entry-sec.png" />
                 </Button>
             </StackPanel>
         </Border>
         
         <Border Grid.Column="0" Classes="RoundBorder">
             <ListBox Classes="Resources"
-                     Items="{Binding ResourceList}"
+                     Items="{Binding Resources}"
                      SelectedItem="{Binding CurrentResource}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
                             <Image Source="/Assets/document.png" />
-                            <TextBlock Classes="DocumentName" Text="{Binding Resource.Name}" />
+                            <TextBlock Classes="DocumentName" Text="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -57,22 +54,24 @@
         </Border>
         
         <Border Grid.Column="1" Classes="RoundBorder">
-            <Grid RowDefinitions="*, Auto" Margin="6">
-                <ListBox Grid.Row="0" Classes="Users"
-                         Items="{Binding UserList}"
-                         SelectedItem="{Binding CurrentUser}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Image Source="/Assets/account.png" />
-                                <TextBlock Classes="DocumentName" Text="{Binding User.Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Grid.Row="1" Content="Выдать права" Classes="Active"
-                        HorizontalAlignment="Center" Margin="0"
-                        Command="{Binding GrantAccessCommand}" />
+            <Grid RowDefinitions="*, Auto" Classes="">
+                
+                <DataGrid 
+                          Items="{Binding Requests}"
+                          SelectedItem="{Binding CurrentRequest}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="68" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Документ" Binding="{Binding Resource.Name}" />
+                        <DataGridTextColumn Header="Пользователь" Binding="{Binding User.Name}" />
+                        <DataGridTextColumn Header="Дата запроса" Binding="{Binding CreateDateTime}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <StackPanel Grid.Row="1" >
+                    <Button Content="Подтвердить" Command="{Binding DeleteResourceCommand}" />
+                    <Button Content="Отклонить" Command="{Binding CancelRequest}" />
+                </StackPanel>
+                
             </Grid>
         </Border>
         
@@ -89,44 +88,21 @@
                     <StackPanel>
                         
                         <TextBlock Text="Наименование документа" />
-                        <TextBox Classes="ResourceName" x:Name="NameResource"
-                                 IsEnabled="{Binding IsEditMode}"
-                                 Text="{Binding CurrentUser.Resource.Name}" />
+                        <TextBlock Classes="PropertyValue" MinHeight="42"
+                                   Text="{Binding ResourceName}" />
                         
-                        <TextBlock Text="Текущие права" />
-                        <StackPanel Classes="Permissions">
-                            <StackPanel>
-                                <CheckBox Margin="7, 0"
-                                          IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentUser.IsRead}" />
-                                <TextBlock Text="Read" />
-                            </StackPanel>
-                            <StackPanel>
-                                <CheckBox Margin="6, 0"
-                                          IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentUser.IsWrite}" />
-                                <TextBlock Text="Write" />
-                            </StackPanel>
-                            <StackPanel>
-                                <CheckBox Margin="-1, 0"
-                                          IsEnabled="{Binding IsEditMode}"
-                                          IsChecked="{Binding CurrentUser.IsTakeGrant}" />
-                                <TextBlock Text="TG" />
-                            </StackPanel>
-                        </StackPanel>
-                        
-                        <TextBlock Text="Владелец" />
-                        <TextBlock Classes="PropertyValue" MinHeight="41"
-                                   Text="{Binding CurrentResource.Resource.Owner.Name}" />
+                        <TextBlock Text="Метка конфиденциальности" />
+                        <TextBlock Classes="PropertyValue" MinHeight="42"
+                                   Text="{Binding ResourceLevel}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding CurrentResource.Resource.CreateDateTime}" />
+                                   Text="{Binding ResourceCreateDateTime}" />
                         
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Сохранить" Classes="Active"
                                     IsVisible="{Binding IsEditMode}"
-                                    Command="{Binding ModifyEntry}" />
+                                    Command="{Binding ModifySecurityClassification}" />
                             <Button Content="Отмена" Classes="Active"
                                     Margin="8, 0, 0, 0"
                                     IsVisible="{Binding IsEditMode}"
@@ -141,13 +117,14 @@
                 <Border Grid.Row="2" Classes="Content">
                     <Grid RowDefinitions="*, Auto" Margin="6">
                         <TextBox Grid.Row="0"
-                                 IsReadOnly="{Binding !CurrentResource.IsWrite}" 
+                                 IsReadOnly="{Binding !IsWrite}" 
+                                 IsVisible="{Binding IsRead}"
                                  Text="{Binding ResourceContent}" />
                         <Button Grid.Row="1"
                                 Content="Сохранить" Classes="Active" 
                                 HorizontalAlignment="Center" Margin="0"
-                                IsEnabled="{Binding CurrentResource.IsWrite}"
-                                Command="{Binding ModifyResource}" />
+                                IsEnabled="{Binding IsWrite}"
+                                Command="{Binding ModifyContent}" />
                     </Grid>
                 </Border>
                 

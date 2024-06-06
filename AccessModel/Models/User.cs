@@ -2,34 +2,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccessModel.Models;
 
-/// <summary>
-/// Пользователь системы
-/// </summary>
 public class User
 {
-    /// <summary>
-    /// Целочисленный идентификатор пользователя
-    /// </summary>
     [Required]
-    public long Id { get; set; }
+    public long Id { get; init; }
     
-    /// <summary>
-    /// Имя пользователя системы
-    /// </summary>
     [MaxLength(50)]
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Логин пользователя, под которым он может совершать вход в систему
-    /// </summary>
     [MaxLength(50)]
     public string Login { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Хэш пароля пользователя
-    /// </summary>
     [MaxLength(1024)]
     public string Password { get; set; } = string.Empty;
+    
+    public SecurityLevel SecurityClearance { get; set; }
 
     public bool IsAdmin => Id == 1;
 }

@@ -34,8 +34,8 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _status, value);
     }
     
-    private User? _currentUser;
-    public User? CurrentUser 
+    private User _currentUser;
+    public User CurrentUser 
     {
         get => _currentUser; 
         set => this.RaiseAndSetIfChanged(ref _currentUser, value); 
@@ -90,7 +90,8 @@ public class MainWindowViewModel : ViewModelBase
         ResourceViewModel.LogEvent += LogHandler;
         UserViewModel.LogEvent += LogHandler;
 
-        _currentUser = UserManager.CurrentUser;
+        _currentUser = UserManager.CurrentUser 
+            ?? UserManager.CreateUser("Администратор", "admin", "A123!");;
         
         _pages = new ViewModelBase[] {
             new ResourceViewModel(),
