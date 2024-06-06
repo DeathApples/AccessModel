@@ -87,8 +87,9 @@
                     <StackPanel>
                         
                         <TextBlock Text="Наименование документа" />
-                        <TextBlock Classes="PropertyValue" MinHeight="42"
-                                   Text="{Binding CurrentResource.Name}" />
+                        <TextBox Classes="ResourceName" x:Name="NameResource"
+                                 IsEnabled="{Binding IsEditMode}"
+                                 Text="{Binding CurrentResource.Name}" />
                         
                         <TextBlock Text="Метка конфиденциальности" />
                         <TextBlock Classes="PropertyValue" MinHeight="42"

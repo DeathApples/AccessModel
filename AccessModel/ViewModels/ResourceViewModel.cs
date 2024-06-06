@@ -62,9 +62,12 @@ public class ResourceViewModel : ViewModelBase
         if (CurrentResource is null) return;
         
         var resource = ResourceManager.GetResource(CurrentResource.Id);
-        if (resource is null || resource.SecurityClassification == CurrentResource.SecurityClassification) return;
-        
-        LogEvent?.Invoke("Метка конфиденциальности у выбранного документа успешно изменена");
+        if (resource is null || resource.SecurityClassification == CurrentResource.SecurityClassification && resource.Name == CurrentResource.Name) return;
+
+        LogEvent?.Invoke(resource.SecurityClassification == CurrentResource.SecurityClassification
+            ? "Документ успешно переименован"
+            : "Метка конфиденциальности у выбранного документа успешно изменена");
+
         ResourceManager.ModifyResource(CurrentResource);
         ChangeEditMode();
     }
@@ -74,11 +77,10 @@ public class ResourceViewModel : ViewModelBase
         if (CurrentResource is null) return;
         
         var resource = ResourceManager.GetResource(CurrentResource.Id);
-        if (resource is null || resource.Content == CurrentResource.Content) { return; }
+        if (resource is null || resource.Content == CurrentResource.Content && resource.Name == CurrentResource.Name) { return; }
         
         if (IsWrite && !IsRead) { resource.Content += $"\n{CurrentResource.Content}"; }
         if (IsWrite && IsRead) { resource.Content = CurrentResource.Content; }
-
         CurrentResource.Content = resource.Content;
         
         LogEvent?.Invoke("Содержание документа успешно изменено");
