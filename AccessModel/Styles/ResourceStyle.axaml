@@ -373,6 +373,10 @@
         </Style.Setters>
     </Style>
     
+    <Style Selector="Grid#PART_ColumnHeaderRoot > Grid">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    
     <Style Selector="DataGridCell > CheckBox:disabled /template/ Border#NormalRectangle">
         <Setter Property="BorderBrush" Value="DimGray" />
     </Style>

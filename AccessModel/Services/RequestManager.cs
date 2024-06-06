@@ -22,6 +22,7 @@ public static class RequestManager
         return db.Requests
             .Include(request => request.Resource)
             .Include(request => request.User)
+            .OrderBy(request => request.User.Login)
             .ToList();
     }
 

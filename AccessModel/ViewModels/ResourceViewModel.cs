@@ -34,7 +34,13 @@ public class ResourceViewModel : ViewModelBase
     public Resource? CurrentResource
     {
         get => _currentResource;
-        set => this.RaiseAndSetIfChanged(ref _currentResource, value);
+        set
+        {
+            IsRead = UserManager.CurrentUser?.SecurityClearance <= value?.SecurityClassification;
+            IsWrite = UserManager.CurrentUser?.SecurityClearance >= value?.SecurityClassification;
+            ResourceContent = UserManager.CurrentUser?.SecurityClearance <= value?.SecurityClassification ? value.Content : string.Empty;
+            this.RaiseAndSetIfChanged(ref _currentResource, value);
+        }
     }
 
     private DeletionRequest? _currentRequest;
@@ -43,12 +49,29 @@ public class ResourceViewModel : ViewModelBase
         get => _currentRequest;
         set => this.RaiseAndSetIfChanged(ref _currentRequest, value);
     }
-
-    public bool IsRead => 
-        UserManager.CurrentUser?.SecurityClearance <= CurrentResource?.SecurityClassification;
     
-    public bool IsWrite => 
-        UserManager.CurrentUser?.SecurityClearance >= CurrentResource?.SecurityClassification;
+    private string _resourceContent;
+    public string ResourceContent
+    {
+        get => _resourceContent;
+        set => this.RaiseAndSetIfChanged(ref _resourceContent, value);
+    }
+    
+    public bool IsAdmin => UserManager.CurrentUser?.IsAdmin ?? false;
+    
+    private bool _isRead;
+    public bool IsRead
+    {
+        get => _isRead;
+        set => this.RaiseAndSetIfChanged(ref _isRead, value);
+    }
+    
+    private bool _isWrite;
+    public bool IsWrite
+    {
+        get => _isWrite;
+        set => this.RaiseAndSetIfChanged(ref _isWrite, value);
+    }
 
     public void CreateResource()
     {
@@ -82,10 +105,14 @@ public class ResourceViewModel : ViewModelBase
         if (IsWrite && !IsRead) { resource.Content += $"\n{CurrentResource.Content}"; }
         if (IsWrite && IsRead) { resource.Content = CurrentResource.Content; }
         CurrentResource.Content = resource.Content;
-        
-        LogEvent?.Invoke("Содержание документа успешно изменено");
-        ResourceManager.ModifyResource(CurrentResource);
-        UpdateResources();
+
+        if (IsWrite) {
+            LogEvent?.Invoke("Содержание документа успешно изменено");
+            ResourceManager.ModifyResource(CurrentResource);
+            UpdateResources();
+        } else {
+            LogEvent?.Invoke("Ошибка при сохранении документа: запрещено записывать в документ с текущей меткой");
+        }
     }
     
     public ReactiveCommand<Unit, Unit> DeleteResourceCommand { get; }

@@ -26,7 +26,8 @@
         
         <Border Grid.Column="2" Classes="Action">
             <StackPanel>
-                <Button Command="{Binding ChangeEditMode}">
+                <Button Command="{Binding ChangeEditMode}"
+                        IsVisible="{Binding IsAdmin}">
                     <Image Source="/Assets/entry-edit.png" />
                 </Button>
                 <Button Command="{Binding CreateResource}">
@@ -117,9 +118,8 @@
                 <Border Grid.Row="2" Classes="Content">
                     <Grid RowDefinitions="*, Auto" Margin="6">
                         <TextBox Grid.Row="0"
-                                 IsReadOnly="{Binding !IsWrite}" 
-                                 IsVisible="{Binding IsRead}"
-                                 Text="{Binding CurrentResource.Content}" />
+                                 IsReadOnly="{Binding !IsWrite}"
+                                 Text="{Binding ResourceContent}" />
                         <Button Grid.Row="1"
                                 Content="Сохранить" Classes="Active" 
                                 HorizontalAlignment="Center" Margin="0"

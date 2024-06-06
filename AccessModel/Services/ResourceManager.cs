@@ -16,7 +16,7 @@ public static class ResourceManager
     public static List<Resource> GetAllResources()
     {
         using var db = new AccessModelContext();
-        return db.Resources.ToList();
+        return db.Resources.OrderBy(resource => resource.Name).ToList();
     }
     
     public static void CreateResource()
