@@ -15,6 +15,7 @@ namespace AccessModel.ViewModels;
 public class ResourceViewModel : ViewModelBase
 {
     public static event Action<string>? LogEvent;
+    private static bool IsAdmin => UserManager.CurrentUser?.IsAdmin ?? false;
     
     private ObservableCollection<AccessControlEntry> _resourceList;
     public ObservableCollection<AccessControlEntry> ResourceList
@@ -73,12 +74,12 @@ public class ResourceViewModel : ViewModelBase
         var oldEntry = AccessControlEntryManager.GetEntry(CurrentUser.Id);
         if (CurrentResource is null || oldEntry is null) return;
         
-        if ((oldEntry.IsRead != CurrentUser.IsRead || oldEntry.IsWrite != CurrentUser.IsWrite) && !CurrentResource.IsTakeGrant) {
+        if ((oldEntry.IsRead != CurrentUser.IsRead || oldEntry.IsWrite != CurrentUser.IsWrite) && !CurrentResource.IsTakeGrant && !IsAdmin) {
             LogEvent?.Invoke("Ошибка изменения записи контроля доступа: недостаточно прав");
             return;
         }
         
-        if (oldEntry.IsTakeGrant != CurrentUser.IsTakeGrant && UserManager.CurrentUser?.Id != CurrentResource?.Resource?.Owner?.Id) {
+        if (oldEntry.IsTakeGrant != CurrentUser.IsTakeGrant && UserManager.CurrentUser?.Id != CurrentResource?.Resource?.Owner?.Id && !IsAdmin) {
             LogEvent?.Invoke("Ошибка изменения записи контроля доступа: недостаточно прав");
             return;
         }
