@@ -18,19 +18,19 @@
     <Grid>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="842" />
-            <ColumnDefinition Width="218" />
+            <ColumnDefinition MinWidth="530" />
+            <ColumnDefinition Width="530" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition MinWidth="386" MaxWidth="386" />
         </Grid.ColumnDefinitions>
         
         <Border Grid.Column="2" Classes="Action">
             <StackPanel>
-                <Button Command="{Binding CreateResource}">
-                    <Image Source="/Assets/entry-add.png" />
-                </Button>
                 <Button Command="{Binding ChangeEditMode}">
                     <Image Source="/Assets/entry-edit.png" />
+                </Button>
+                <Button Command="{Binding CreateResource}">
+                    <Image Source="/Assets/entry-add.png" />
                 </Button>
                 <Button Command="{Binding DeleteResourceCommand}">
                     <Image Source="/Assets/entry-remove.png" />
@@ -54,20 +54,19 @@
         </Border>
         
         <Border Grid.Column="1" Classes="RoundBorder">
-            <Grid RowDefinitions="*, Auto" Classes="">
+            <Grid RowDefinitions="*, Auto" Margin="5">
                 
-                <DataGrid 
+                <DataGrid Grid.Row="0"
                           Items="{Binding Requests}"
                           SelectedItem="{Binding CurrentRequest}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="68" IsReadOnly="True" />
                         <DataGridTextColumn Header="Документ" Binding="{Binding Resource.Name}" />
                         <DataGridTextColumn Header="Пользователь" Binding="{Binding User.Name}" />
                         <DataGridTextColumn Header="Дата запроса" Binding="{Binding CreateDateTime}" />
                     </DataGrid.Columns>
                 </DataGrid>
                 
-                <StackPanel Grid.Row="1" >
+                <StackPanel Grid.Row="1" Classes="Action" Orientation="Horizontal" HorizontalAlignment="Center">      
                     <Button Content="Подтвердить" Command="{Binding DeleteResourceCommand}" />
                     <Button Content="Отклонить" Command="{Binding CancelRequest}" />
                 </StackPanel>
@@ -89,15 +88,15 @@
                         
                         <TextBlock Text="Наименование документа" />
                         <TextBlock Classes="PropertyValue" MinHeight="42"
-                                   Text="{Binding ResourceName}" />
+                                   Text="{Binding CurrentResource.Name}" />
                         
                         <TextBlock Text="Метка конфиденциальности" />
                         <TextBlock Classes="PropertyValue" MinHeight="42"
-                                   Text="{Binding ResourceLevel}" />
+                                   Text="{Binding CurrentResource.SecurityLabel}" />
                         
                         <TextBlock Text="Дата создания" />
                         <TextBlock Classes="PropertyValue"
-                                   Text="{Binding ResourceCreateDateTime}" />
+                                   Text="{Binding CurrentResource.CreateDateTime}" />
                         
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Сохранить" Classes="Active"
@@ -119,7 +118,7 @@
                         <TextBox Grid.Row="0"
                                  IsReadOnly="{Binding !IsWrite}" 
                                  IsVisible="{Binding IsRead}"
-                                 Text="{Binding ResourceContent}" />
+                                 Text="{Binding CurrentResource.Content}" />
                         <Button Grid.Row="1"
                                 Content="Сохранить" Classes="Active" 
                                 HorizontalAlignment="Center" Margin="0"

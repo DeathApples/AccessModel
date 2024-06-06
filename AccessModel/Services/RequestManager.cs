@@ -16,12 +16,13 @@ public static class RequestManager
             .FirstOrDefault(request => request.Id == id);
     }
     
-    public static IEnumerable<DeletionRequest> GetAllRequests()
+    public static List<DeletionRequest> GetAllRequests()
     {
         using var db = new AccessModelContext();
         return db.Requests
             .Include(request => request.Resource)
-            .Include(request => request.User);
+            .Include(request => request.User)
+            .ToList();
     }
 
     public static void CreateRequest(Resource resource)

@@ -9,10 +9,10 @@ public static class UserManager
 {
     public static User? CurrentUser { get; set; }
     
-    public static IEnumerable<User> GetAllUsers()
+    public static List<User> GetAllUsers()
     {
         using var db = new AccessModelContext();
-        return db.Users.OrderBy(user => user.Id);
+        return db.Users.OrderBy(user => user.Id).ToList();
     }
     
     public static User? GetUser(long id)

@@ -19,4 +19,12 @@ public class User
     public SecurityLevel SecurityClearance { get; set; }
 
     public bool IsAdmin => Id == 1;
+    
+    public string SecurityLabel => SecurityClearance switch {
+        SecurityLevel.Unclassified => "Неклассифицированно",
+        SecurityLevel.TopSecret => "Совершенно секретно",
+        SecurityLevel.Confidential => "Конфиденциально",
+        SecurityLevel.Secret => "Секретно",
+        _ => string.Empty
+    };
 }

@@ -36,44 +36,12 @@ public class ResourceViewModel : ViewModelBase
         get => _currentResource;
         set => this.RaiseAndSetIfChanged(ref _currentResource, value);
     }
-    
+
     private DeletionRequest? _currentRequest;
     public DeletionRequest? CurrentRequest
     {
         get => _currentRequest;
         set => this.RaiseAndSetIfChanged(ref _currentRequest, value);
-    }
-
-    private string _resourceContent;
-    public string ResourceContent
-    {
-        get => _resourceContent;
-        set => this.RaiseAndSetIfChanged(ref _resourceContent, value);
-    }
-    
-    public string ResourceName => 
-        _currentResource
-            ?.Name ?? string.Empty;
-    
-    public string ResourceCreateDateTime => 
-        _currentResource
-            ?.CreateDateTime
-            .ToString(CultureInfo.CurrentCulture) 
-        ?? string.Empty;
-    
-    public string ResourceLevel
-    {
-        get
-        {
-            return _currentResource?.SecurityClassification switch 
-            {
-                SecurityLevel.Unclassified => "Неклассифицированно",
-                SecurityLevel.TopSecret => "Совершенно секретно",
-                SecurityLevel.Confidential => "Конфиденциально",
-                SecurityLevel.Secret => "Секретно",
-                _ => string.Empty
-            };
-        }
     }
 
     public bool IsRead => 
@@ -105,11 +73,13 @@ public class ResourceViewModel : ViewModelBase
     {
         if (CurrentResource is null) return;
         
-        if (IsWrite && !IsRead) { CurrentResource.Content += $"\n{ResourceContent}"; }
-        if (IsWrite && IsRead) { CurrentResource.Content = ResourceContent; }
-        
         var resource = ResourceManager.GetResource(CurrentResource.Id);
         if (resource is null || resource.Content == CurrentResource.Content) { return; }
+        
+        if (IsWrite && !IsRead) { resource.Content += $"\n{CurrentResource.Content}"; }
+        if (IsWrite && IsRead) { resource.Content = CurrentResource.Content; }
+
+        CurrentResource.Content = resource.Content;
         
         LogEvent?.Invoke("Содержание документа успешно изменено");
         ResourceManager.ModifyResource(CurrentResource);
@@ -155,7 +125,7 @@ public class ResourceViewModel : ViewModelBase
     private void UpdateResources()
     {
         Resources.Clear(); Requests.Clear();
-        Resources.AddRange(ResourceManager.GetResources());
+        Resources.AddRange(ResourceManager.GetAllResources());
         CurrentResource = Resources.FirstOrDefault() ?? new Resource();
         Requests.AddRange(RequestManager.GetAllRequests());
         CurrentRequest = Requests.FirstOrDefault() ?? new DeletionRequest();
@@ -191,7 +161,7 @@ public class ResourceViewModel : ViewModelBase
         DeleteResourceCommand = ReactiveCommand.CreateFromTask(DeleteResource);
         
         _resources = new ObservableCollection<Resource>(
-            ResourceManager.GetResources()
+            ResourceManager.GetAllResources()
         );
         
         _requests = new ObservableCollection<DeletionRequest>(
@@ -200,7 +170,5 @@ public class ResourceViewModel : ViewModelBase
         
         _currentResource = _resources.FirstOrDefault();
         _currentRequest = _requests.FirstOrDefault();
-        
-        _resourceContent = string.Empty;
     }
 }

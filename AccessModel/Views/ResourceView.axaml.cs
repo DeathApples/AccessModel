@@ -20,6 +20,7 @@ public partial class ResourceView : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+        if (Design.IsDesignMode) return;
         var window = (ReactiveWindow<MainWindowViewModel>)(Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow!;
         window.WhenActivated(action => action((DataContext as ResourceViewModel)!.ConfirmationDialog.RegisterHandler(DoShowDialogAsync)));
     }

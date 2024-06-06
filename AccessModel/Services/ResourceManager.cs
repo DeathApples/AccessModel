@@ -13,11 +13,10 @@ public static class ResourceManager
         return db.Resources.FirstOrDefault(resource => resource.Id == id);
     }
     
-    public static IEnumerable<Resource> GetResources()
+    public static List<Resource> GetAllResources()
     {
         using var db = new AccessModelContext();
-        var level = UserManager.CurrentUser?.SecurityClearance ?? 0;
-        return db.Resources.Where(resource => resource.SecurityClassification == level);
+        return db.Resources.ToList();
     }
     
     public static void CreateResource()

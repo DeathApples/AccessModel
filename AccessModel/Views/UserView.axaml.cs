@@ -19,6 +19,7 @@ public partial class UserView : UserControl
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+        if (Design.IsDesignMode) return;
         AttachedToVisualTree += (_, _) => { (DataContext as UserViewModel)!.ConfirmationDialog.RegisterHandler(DoShowDialogAsync); };
     }
     

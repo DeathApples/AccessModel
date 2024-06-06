@@ -22,6 +22,7 @@
                   SelectedItem="{Binding CurrentUser}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="68" IsReadOnly="True" />
+                <DataGridTextColumn Header="ID" Binding="{Binding SecurityClearance}" Width="68" IsReadOnly="True" />
                 <DataGridTextColumn Header="Логин" Binding="{Binding Login}" />
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="2*" />

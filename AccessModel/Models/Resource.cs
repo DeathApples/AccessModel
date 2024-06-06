@@ -17,4 +17,12 @@ public class Resource
     public SecurityLevel SecurityClassification { get; set; }
 
     public DateTime CreateDateTime { get; init; } = DateTime.UtcNow;
+    
+    public string SecurityLabel => SecurityClassification switch {
+        SecurityLevel.Unclassified => "Неклассифицированно",
+        SecurityLevel.TopSecret => "Совершенно секретно",
+        SecurityLevel.Confidential => "Конфиденциально",
+        SecurityLevel.Secret => "Секретно",
+        _ => string.Empty
+    };
 }

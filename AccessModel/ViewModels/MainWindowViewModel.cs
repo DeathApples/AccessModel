@@ -90,8 +90,7 @@ public class MainWindowViewModel : ViewModelBase
         ResourceViewModel.LogEvent += LogHandler;
         UserViewModel.LogEvent += LogHandler;
 
-        _currentUser = UserManager.CurrentUser 
-            ?? UserManager.CreateUser("Администратор", "admin", "A123!");;
+        _currentUser = UserManager.CurrentUser!;
         
         _pages = new ViewModelBase[] {
             new ResourceViewModel(),
